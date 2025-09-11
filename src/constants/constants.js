@@ -1,3 +1,8 @@
 const devServer = "http://localhost:4000";
+const liveServer = "https://";
 
-export { devServer };
+const getAccessToken = () => {
+	return sessionStorage.getItem("token") || null;
+};
+
+export { devServer, getAccessToken, liveServer };

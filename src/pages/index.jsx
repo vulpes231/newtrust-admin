@@ -1,3 +1,4 @@
+import Dashboard from "./Dashboard";
 import Landing from "./Landing";
 
-export { Landing };
+export { Dashboard, Landing };
