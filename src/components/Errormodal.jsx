@@ -1,9 +1,4 @@
-import {
-	LucideAlertCircle,
-	LucideMinimize,
-	LucidePanelTopClose,
-	LucideX,
-} from "lucide-react";
+import { LucideAlertCircle, LucideX } from "lucide-react";
 import React from "react";
 
 const Errormodal = ({ error, onClose }) => {

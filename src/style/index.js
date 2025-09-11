@@ -31,5 +31,6 @@ export const styles = {
 
 		accent: "bg-gradient-to-r from-blue-500 to-indigo-600 text-white",
 		highlight: "bg-yellow-200 dark:bg-yellow-500/30",
+		section: "p-6 w-full max-w-5xl mx-auto",
 	},
 };

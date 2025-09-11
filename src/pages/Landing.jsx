@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Custominput, Errormodal } from "../components";
 import { useDispatch } from "react-redux";
 import { resetLogin } from "../features/loginSlice";
+import { styles } from "../style";
 
 const Landing = () => {
 	const dispatch = useDispatch();
@@ -37,14 +38,20 @@ const Landing = () => {
 	}, [error]);
 
 	return (
-		<section className="p-6 flex flex-col md:items-center md:justify-center h-screen bg-white md:bg-slate-200">
+		<section
+			className={`${styles.section} ${styles.color.background} flex flex-col md:items-center md:justify-center h-screen`}
+		>
 			<form
 				onSubmit={handleSubmit}
-				className="bg-white md:w-[400px] flex flex-col gap-6 md:p-8 md:shadow-sm md:rounded-2xl"
+				className={`${styles.color.card} p-4 md:w-[400px] flex flex-col gap-6 md:p-8 h-full md:h-auto`}
 			>
 				<div>
-					<h3>welcome back!</h3>
-					<h6>sign in to continue.</h6>
+					<h3 className={`${styles.font.heading} ${styles.color.text}`}>
+						welcome back!
+					</h3>
+					<h6 className={`${styles.font.subheading} ${styles.color.text}`}>
+						sign in to continue.
+					</h6>
 				</div>
 				<div>
 					<Custominput
@@ -64,12 +71,12 @@ const Landing = () => {
 				</div>
 				<button
 					type="submit"
-					className="bg-black text-white h-[35px] w-full md:rounded-lg font-normal text-sm md:text-base capitalize"
+					className={`${styles.color.button.primary} ${styles.font.text} px-5 py-2.5 rounded-lg font-medium transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed`}
 				>
-					{" "}
-					sign in
+					{"Sign In"}
 				</button>
 			</form>
+
 			{error && (
 				<Errormodal
 					error={"Hello"}
