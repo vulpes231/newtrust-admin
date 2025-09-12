@@ -55,6 +55,17 @@ const Landing = () => {
 		return () => clearTimeout(timeout);
 	}, [error]);
 
+	useEffect(() => {
+		let timeout;
+		if (token) {
+			timeout = setTimeout(() => {
+				dispatch(resetLogin());
+				window.location.href = "/dashboard";
+			}, 3000);
+		}
+		return () => clearTimeout(timeout);
+	}, [token]);
+
 	return (
 		<section
 			className={`${styles.section} ${styles.color.background} flex flex-col md:items-center md:justify-center h-screen`}
@@ -111,7 +122,7 @@ const Landing = () => {
 					onClose={() => dispatch(resetLogin())}
 				/>
 			)}
-			{loginLoading && <Loadingmodal text={"Loggin in..."} />}
+			{loginLoading && <Loadingmodal text={"Logging in..."} />}
 		</section>
 	);
 };

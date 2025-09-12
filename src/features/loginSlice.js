@@ -13,8 +13,6 @@ export const loginAdmin = createAsyncThunk(
 		console.log("sending");
 		try {
 			const response = await api.post("/login", formData);
-
-			console.log(response.data);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
