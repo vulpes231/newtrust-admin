@@ -7,6 +7,7 @@ import Logo from "./Logo";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Successmodal from "./Successmodal";
+import Table from "./Table";
 
 export {
 	Navbar,
@@ -18,4 +19,5 @@ export {
 	Sidebar,
 	Dashcontent,
 	Authnav,
+	Table,
 };

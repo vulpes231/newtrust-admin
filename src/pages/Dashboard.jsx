@@ -12,7 +12,9 @@ import Profile from "./Profile";
 const Dashboard = () => {
 	const { activeLink } = useSelector(selectNavSlice);
 	return (
-		<section className={`w-full grid grid-cols-4 h-screen bg-green-200`}>
+		<section
+			className={`w-full grid grid-cols-4 h-screen bg-slate-200 dark:bg-slate-950`}
+		>
 			<Sidebar />
 			{/* <Dashcontent /> */}
 			{activeLink === "dashboard" ? (
