@@ -23,12 +23,12 @@ const App = () => {
 
 	return (
 		<div>
-			{!token && <Navbar />}
+			{token && <Navbar />}
 			<Routes>
 				<Route path="/" element={<Landing />} />
 				<Route
 					path="/dashboard"
-					element={token ? <Dashboard /> : <Landing />}
+					element={!token ? <Dashboard /> : <Landing />}
 				/>
 			</Routes>
 		</div>

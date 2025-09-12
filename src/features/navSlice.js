@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 	darkMode: localStorage.getItem("theme") === "dark",
 	toggle: false,
+	activeLink: localStorage.getItem("activeLink") || "dashboard",
 };
 
 const navSlice = createSlice({
@@ -22,9 +23,13 @@ const navSlice = createSlice({
 				document.documentElement.classList.remove("dark");
 			}
 		},
+		setActiveLink(state, payload) {
+			state.activeLink = payload.payload;
+			localStorage.setItem("activeLink", payload.payload);
+		},
 	},
 });
 
 export const selectNavSlice = (state) => state.nav;
-export const { setToggle, setDarkMode } = navSlice.actions;
+export const { setToggle, setDarkMode, setActiveLink } = navSlice.actions;
 export default navSlice.reducer;

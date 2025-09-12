@@ -1,0 +1,17 @@
+import React from "react";
+// import Authnav from "./Authnav";
+Authnav;
+import { useSelector } from "react-redux";
+import { selectNavSlice } from "../features/navSlice";
+import Authnav from "./Authnav";
+
+const Dashcontent = () => {
+	const { darkMode } = useSelector(selectNavSlice);
+	return (
+		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300">
+			<Authnav darkMode={darkMode} />
+		</div>
+	);
+};
+
+export default Dashcontent;

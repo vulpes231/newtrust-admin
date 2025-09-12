@@ -5,4 +5,13 @@ const getAccessToken = () => {
 	return sessionStorage.getItem("token") || null;
 };
 
-export { devServer, getAccessToken, liveServer };
+const sideBarLinks = [
+	{ id: "dashboard", name: "dashboard" },
+	{ id: "users", name: "users" },
+	{ id: "transactions", name: "transactions" },
+	{ id: "positions", name: "positions" },
+	{ id: "settings", name: "settings" },
+	{ id: "profile", name: "profile" },
+];
+
+export { devServer, getAccessToken, liveServer, sideBarLinks };
