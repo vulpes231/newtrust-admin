@@ -1,15 +1,17 @@
 import axios from "axios";
-import { devServer } from "../constants/constants";
+import { devServer, getAccessToken } from "../constants/constants";
 
 const api = axios.create({
 	baseURL: `${devServer}`,
+	headers: {
+		"Content-Type": "application/json",
+	},
 });
 
 // Request interceptor → add Authorization header if token exists
 api.interceptors.request.use(
 	(config) => {
-		const token =
-			sessionStorage.getItem("token") || localStorage.getItem("token");
+		const token = getAccessToken();
 
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;

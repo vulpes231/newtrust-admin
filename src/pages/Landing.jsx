@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Custominput, Errormodal } from "../components";
-import { useDispatch } from "react-redux";
-import { resetLogin } from "../features/loginSlice";
+import {
+	Custominput,
+	Errormodal,
+	Loadingmodal,
+	Successmodal,
+} from "../components";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	loginAdmin,
+	resetLogin,
+	selectLoginSlice,
+} from "../features/loginSlice";
 import { styles } from "../style";
 
 const Landing = () => {
@@ -9,6 +18,8 @@ const Landing = () => {
 	const [form, setForm] = useState({ username: "", password: "" });
 	const [showPass, setShowPass] = useState(false);
 	const [error, setError] = useState("");
+
+	const { token, loginLoading, loginError } = useSelector(selectLoginSlice);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -19,11 +30,12 @@ const Landing = () => {
 		e.preventDefault();
 		for (const key in form) {
 			if (form[key] === "") {
-				setError(`${key} required!`);
+				setError(`${key[0].toUpperCase()}${key.slice(1)} required!`);
 				return;
 			}
 		}
 		console.log(form);
+		dispatch(loginAdmin(form));
 	};
 
 	useEffect(() => {
@@ -79,13 +91,21 @@ const Landing = () => {
 
 			{error && (
 				<Errormodal
-					error={"Hello"}
+					error={error}
 					onClose={() => {
 						dispatch(resetLogin());
 						setError("");
 					}}
 				/>
 			)}
+
+			{token && (
+				<Successmodal
+					successText={"Login success"}
+					onClose={() => dispatch(resetLogin())}
+				/>
+			)}
+			{loginLoading && <Loadingmodal text={"Loggin in..."} />}
 		</section>
 	);
 };

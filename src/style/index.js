@@ -7,14 +7,14 @@ export const styles = {
 	},
 	color: {
 		background: "bg-slate-200 dark:bg-slate-950",
-		card: "bg-[#fff] dark:bg-slate-800/70 shadow-md rounded-2xl",
+		card: "bg-[#fff] dark:bg-slate-900/70 shadow-md rounded-2xl",
 		border: "border border-slate-300 dark:border-slate-700",
 		text: "text-[#333] dark:text-[#f9fafb]",
 		mutedText: "text-gray-600 dark:text-gray-400",
 
 		button: {
 			primary:
-				"bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600",
+				"bg-[#2156be] hover:bg-[#2156be]/90 text-white dark:bg-blue-500 dark:hover:bg-blue-600",
 			secondary:
 				"bg-slate-300 hover:bg-slate-400 text-black dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white",
 			danger:
@@ -29,7 +29,7 @@ export const styles = {
 				"text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-300",
 		},
 
-		accent: "bg-gradient-to-r from-blue-500 to-indigo-600 text-white",
+		accent: "bg-gradient-to-r from-[#2156be] to-indigo-600 text-white",
 		highlight: "bg-yellow-200 dark:bg-yellow-500/30",
 		section: "p-6 w-full max-w-5xl mx-auto",
 	},
