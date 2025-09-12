@@ -10,8 +10,9 @@ const initialState = {
 export const loginAdmin = createAsyncThunk(
 	"login/loginAdmin",
 	async (formData, { rejectWithValue }) => {
+		console.log("sending");
 		try {
-			const response = await api.post("/authadmin/login", formData);
+			const response = await api.post("/login", formData);
 
 			console.log(response.data);
 			return response.data;

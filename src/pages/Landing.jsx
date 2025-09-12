@@ -15,7 +15,7 @@ import { styles } from "../style";
 
 const Landing = () => {
 	const dispatch = useDispatch();
-	const [form, setForm] = useState({ username: "", password: "" });
+	const [form, setForm] = useState({ email: "", password: "" });
 	const [showPass, setShowPass] = useState(false);
 	const [error, setError] = useState("");
 
@@ -39,12 +39,18 @@ const Landing = () => {
 	};
 
 	useEffect(() => {
+		if (loginError) {
+			setError(loginError);
+		}
+	}, [loginError]);
+
+	useEffect(() => {
 		let timeout;
 		if (error) {
 			timeout = setTimeout(() => {
 				dispatch(resetLogin());
 				setError("");
-			}, 2000);
+			}, 3000);
 		}
 		return () => clearTimeout(timeout);
 	}, [error]);
@@ -67,10 +73,10 @@ const Landing = () => {
 				</div>
 				<div>
 					<Custominput
-						label={"username"}
-						value={form.username}
+						label={"email"}
+						value={form.email}
 						handleChange={handleChange}
-						name={"username"}
+						name={"email"}
 						type={"text"}
 					/>
 					<Custominput

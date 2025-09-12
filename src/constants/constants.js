@@ -1,4 +1,4 @@
-const devServer = "http://localhost:6000";
+const devServer = "http://localhost:5000";
 const liveServer = "https://";
 
 const getAccessToken = () => {
