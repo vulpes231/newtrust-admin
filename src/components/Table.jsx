@@ -5,7 +5,7 @@ const Table = ({ data, pagination, headers }) => {
 	return (
 		<div className="overflow-x-auto p-4">
 			<table className="min-w-full border-collapse border border-gray-300 dark:border-slate-700">
-				<thead className="bg-gray-100 dark:bg-slate-800">
+				<thead className="bg-gray-100 dark:bg-slate-950">
 					<tr>
 						{headers.map((hd) => (
 							<th
@@ -23,7 +23,7 @@ const Table = ({ data, pagination, headers }) => {
 					</tr>
 				</thead>
 
-				<tbody className="bg-white/30 dark:bg-slate-800/30 backdrop-blur-md border border-white/20 dark:border-slate-700/30 shadow-md">
+				<tbody className="bg-white/30 dark:bg-slate-950/30 backdrop-blur-md border border-white/20 dark:border-slate-700/30 shadow-md">
 					{data && data.length > 0 ? (
 						data.map((dt, index) => (
 							<tr key={index} className="hover:bg-gray-50">

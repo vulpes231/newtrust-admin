@@ -1,4 +1,5 @@
 import Authnav from "./Authnav";
+import Chart from "./Chart";
 import Custominput from "./Custominput";
 import Dashcontent from "./Dashcontent";
 import Errormodal from "./Errormodal";
@@ -20,4 +21,5 @@ export {
 	Dashcontent,
 	Authnav,
 	Table,
+	Chart,
 };

@@ -16,7 +16,7 @@ const Authnav = () => {
 			variants={fade}
 			initial="hidden"
 			animate="visible"
-			className={`flex justify-between items-center w-full p-4 rounded-xl shadow-sm`}
+			className={`flex justify-between items-center w-full py-4 px-6 rounded-xl `}
 		>
 			{/* Active page title */}
 			<motion.h3

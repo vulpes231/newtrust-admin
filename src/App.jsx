@@ -22,13 +22,13 @@ const App = () => {
 	}, [darkMode]);
 
 	return (
-		<div>
-			{token && <Navbar />}
+		<div className="bg-slate-200 dark:bg-slate-950">
+			{!token && <Navbar />}
 			<Routes>
 				<Route path="/" element={<Landing />} />
 				<Route
 					path="/dashboard"
-					element={!token ? <Dashboard /> : <Landing />}
+					element={token ? <Dashboard /> : <Landing />}
 				/>
 			</Routes>
 		</div>
