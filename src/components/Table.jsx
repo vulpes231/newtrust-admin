@@ -1,7 +1,7 @@
 import React from "react";
 import { styles } from "../style";
 
-const Table = ({ data, pagination, headers }) => {
+const Table = ({ data, pagination, headers, nullText }) => {
 	return (
 		<div className="overflow-x-auto p-4">
 			<table className="min-w-full border-collapse border border-gray-300 dark:border-slate-700">
@@ -47,7 +47,7 @@ const Table = ({ data, pagination, headers }) => {
 								colSpan={headers.length + 1}
 								className="p-20 text-center text-gray-500"
 							>
-								You have no users.
+								{nullText}
 							</td>
 						</tr>
 					)}

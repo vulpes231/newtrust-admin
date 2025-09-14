@@ -27,7 +27,7 @@ const Dashcontent = () => {
 					<h3 className={`${styles.font.subheading} py-4 px-6`}>
 						Recent Transactions
 					</h3>
-					<Table headers={headers} />
+					<Table headers={headers} nullText={"You have no transactions."} />
 				</div>
 			</div>
 		</div>

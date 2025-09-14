@@ -15,7 +15,7 @@ const Positions = () => {
 	return (
 		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex flex-col gap-6 h-screen overflow-auto">
 			<Authnav darkMode={darkMode} />
-			<Table headers={headers} />
+			<Table headers={headers} nullText={"You have no position."} />
 		</div>
 	);
 };
