@@ -43,8 +43,10 @@ const Sidebar = () => {
 						const icon =
 							link.id === "dashboard" ? (
 								<LucideHome />
-							) : link.id === "users" ? (
+							) : link.id === "admins" ? (
 								<LucideUserCog />
+							) : link.id === "users" ? (
+								<LucideUserLock />
 							) : link.id === "transactions" ? (
 								<LucideCircleDollarSign />
 							) : link.id === "positions" ? (

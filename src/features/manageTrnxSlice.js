@@ -12,7 +12,7 @@ export const getTrnxs = createAsyncThunk(
 	"managetrnx/getTrnxs",
 	async (queryData, { rejectWithValue }) => {
 		try {
-			const response = await api.get("/managetrnx");
+			const response = await api.get("/managetrans");
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(

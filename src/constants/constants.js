@@ -7,6 +7,7 @@ const getAccessToken = () => {
 
 const sideBarLinks = [
 	{ id: "dashboard", name: "dashboard" },
+	{ id: "admins", name: "admins" },
 	{ id: "users", name: "users" },
 	{ id: "transactions", name: "transactions" },
 	{ id: "positions", name: "positions" },

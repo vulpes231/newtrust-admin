@@ -8,6 +8,7 @@ import Transactions from "./Transactions";
 import Positions from "./Positions";
 import Settings from "./Settings";
 import Profile from "./Profile";
+import Admins from "./Admins";
 
 const Dashboard = () => {
 	const { activeLink } = useSelector(selectNavSlice);
@@ -19,6 +20,8 @@ const Dashboard = () => {
 			{/* <Dashcontent /> */}
 			{activeLink === "dashboard" ? (
 				<Dashcontent />
+			) : activeLink === "admins" ? (
+				<Admins />
 			) : activeLink === "users" ? (
 				<Users />
 			) : activeLink === "transactions" ? (

@@ -2,42 +2,45 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectNavSlice } from "../features/navSlice";
 import { Authnav, Table } from "../components";
 import { useEffect } from "react";
-import { getUsers, selectManageUserSlice } from "../features/manageUserSlice";
+import { getAllAdmins, selectAdmins } from "../features/adminSlice";
 
 const headers = [
-	{ id: "name", title: "name" },
+	{ id: "username", title: "username" },
 	{ id: "email", title: "email" },
-	{ id: "mail verified", title: "mail verified" },
-	{ id: "kyc verified", title: "kyc verified" },
-	{ id: "account status", title: "account status" },
+	{ id: "role", title: "role" },
 ];
 
 const buttons = [
-	{ id: "edit", title: "edit" },
-	{ id: "suspend", title: "suspend" },
+	{ id: "add", title: "make SU" },
+	{ id: "remove", title: "unmake SU" },
 	{ id: "delete", title: "delete" },
 ];
 
-const Users = () => {
+const Admins = () => {
 	const dispatch = useDispatch();
 	const { darkMode } = useSelector(selectNavSlice);
-	const { users, userPagination } = useSelector(selectManageUserSlice);
+	const admins = useSelector(selectAdmins);
 
 	useEffect(() => {
-		dispatch(getUsers());
+		dispatch(getAllAdmins());
 	}, []);
 
-	// useEffect(() => {
-	// 	if (users) {
-	// 		console.log(users);
-	// 	}
-	// }, [users]);
+	useEffect(() => {
+		if (admins) {
+			console.log(admins);
+		}
+	}, [admins]);
 	return (
 		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex flex-col gap-6 h-screen overflow-auto">
 			<Authnav darkMode={darkMode} />
-			<Table headers={headers} nullText={"You have no users."} />
+			<Table
+				headers={headers}
+				nullText={"You have no admins."}
+				buttons={buttons}
+				data={admins}
+			/>
 		</div>
 	);
 };
 
-export default Users;
+export default Admins;

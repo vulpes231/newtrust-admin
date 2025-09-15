@@ -2,12 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "../features/loginSlice";
 import manageUserReducer from "../features/manageUserSlice";
 import navReducer from "../features/navSlice";
+import manageTrnxReducer from "../features/manageTrnxSlice";
+import adminReducer from "../features/adminSlice";
 
 const store = configureStore({
 	reducer: {
-		login: loginReducer,
-		manageuser: manageUserReducer,
 		nav: navReducer,
+		login: loginReducer,
+		admin: adminReducer,
+		manageuser: manageUserReducer,
+		managetrnx: manageTrnxReducer,
 	},
 });
 

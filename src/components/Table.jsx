@@ -1,7 +1,7 @@
 import React from "react";
 import { styles } from "../style";
 
-const Table = ({ data, pagination, headers, nullText }) => {
+const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	return (
 		<div className="overflow-x-auto p-4">
 			<table className="min-w-full border-collapse border border-gray-300 dark:border-slate-700">
@@ -26,18 +26,28 @@ const Table = ({ data, pagination, headers, nullText }) => {
 				<tbody className="bg-white/30 dark:bg-slate-950/30 backdrop-blur-md border border-white/20 dark:border-slate-700/30 shadow-md">
 					{data && data.length > 0 ? (
 						data.map((dt, index) => (
-							<tr key={index} className="hover:bg-gray-50">
-								{headers.map((hd) => (
+							<tr key={index} className="">
+								{headers.map((hd) => {
+									// const role = hd.id === role && dt[hd.id][0] === "0001" ? "super" : "admin"
 									<td
 										key={hd.id}
 										className="px-4 py-2 border border-gray-300 dark:border-slate-700"
 									>
-										{dt[hd.key]}
-									</td>
-								))}
+										{dt[hd.id]}
+									</td>;
+								})}
 								<td className="px-4 py-2 border border-gray-300 dark:border-slate-700">
 									{/* example action */}
-									<button className="text-blue-600">Edit</button>
+									<div className="flex flex-col gap-2">
+										{buttons &&
+											buttons.map((btn) => {
+												return (
+													<button key={btn.id} className="text-blue-600">
+														{btn.name}
+													</button>
+												);
+											})}
+									</div>
 								</td>
 							</tr>
 						))
