@@ -10,7 +10,7 @@ const initialState = {
 
 export const getUsers = createAsyncThunk(
 	"manageuser/getUsers",
-	async (_, { rejectWithValue }) => {
+	async (queryData, { rejectWithValue }) => {
 		try {
 			const response = await api.get("/manageuser");
 			return response.data;

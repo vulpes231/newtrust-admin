@@ -5,6 +5,12 @@ const initialState = {
 	getAdminLoading: false,
 	getAdminError: null,
 	adminInfo: null,
+	getAllAdminLoading: false,
+	getAllAdminError: null,
+	admins: null,
+	updateAdminLoading: false,
+	updateAdminError: null,
+	adminUpdated: null,
 };
 
 export const getAdminInfo = createAsyncThunk(
@@ -12,6 +18,41 @@ export const getAdminInfo = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await api.get("/admin");
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response?.data || {
+					message: error.message,
+					statusCode: error.statusCode,
+				}
+			);
+		}
+	}
+);
+
+export const getAllAdmins = createAsyncThunk(
+	"admin/getAllAdmins",
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await api.get("/manageadmin");
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response?.data || {
+					message: error.message,
+					statusCode: error.statusCode,
+				}
+			);
+		}
+	}
+);
+
+export const makeSuperUser = createAsyncThunk(
+	"admin/makeSuperUser",
+	async (formData, { rejectWithValue }) => {
+		try {
+			const { adminId } = formData;
+			const response = await api.post(`/manageadmin/${adminId}`, formData);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -43,9 +84,38 @@ const adminSlice = createSlice({
 				state.getAdminError = action.payload.message || action.error.message;
 				state.adminInfo = null;
 			});
+		builder
+			.addCase(getAllAdmins.pending, (state) => {
+				state.getAllAdminLoading = true;
+			})
+			.addCase(getAllAdmins.fulfilled, (state, action) => {
+				state.getAllAdminLoading = false;
+				state.getAllAdminError = null;
+				state.admins = action.payload.data;
+			})
+			.addCase(getAllAdmins.rejected, (state, action) => {
+				state.getAllAdminLoading = false;
+				state.getAllAdminError = action.payload.message || action.error.message;
+				state.admins = null;
+			});
+		builder
+			.addCase(makeSuperUser.pending, (state) => {
+				state.updateAdminLoading = true;
+			})
+			.addCase(makeSuperUser.fulfilled, (state) => {
+				state.updateAdminLoading = false;
+				state.updateAdminError = null;
+				state.adminUpdated = true;
+			})
+			.addCase(makeSuperUser.rejected, (state, action) => {
+				state.updateAdminLoading = false;
+				state.updateAdminError = action.payload.message || action.error.message;
+				state.adminUpdated = null;
+			});
 	},
 });
 
 export const selectAdminSlice = (state) => state.admin;
-export const selectAdmin = (state) => state.admin.adminInfo;
+export const selectCurrentAdmin = (state) => state.admin.adminInfo;
+export const selectAdmins = (state) => state.admin.admins;
 export default adminSlice.reducer;
