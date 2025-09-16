@@ -10,7 +10,10 @@ const initialState = {
 	admins: null,
 	updateAdminLoading: false,
 	updateAdminError: null,
-	adminUpdated: null,
+	adminUpdated: false,
+	createAdminLoading: false,
+	createAdminError: null,
+	adminCreated: false,
 };
 
 export const getAdminInfo = createAsyncThunk(
@@ -65,10 +68,38 @@ export const makeSuperUser = createAsyncThunk(
 	}
 );
 
+export const createNewAdmin = createAsyncThunk(
+	"admin/createNewAdmin",
+	async (formData, { rejectWithValue }) => {
+		try {
+			const response = await api.post(`/login`, formData);
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response?.data || {
+					message: error.message,
+					statusCode: error.statusCode,
+				}
+			);
+		}
+	}
+);
+
 const adminSlice = createSlice({
 	name: "admin",
 	initialState,
-	reducers: {},
+	reducers: {
+		resetUpdateAdmin(state) {
+			state.updateAdminLoading = false;
+			state.updateAdminError = null;
+			state.adminUpdated = false;
+		},
+		resetCreateAdmin(state) {
+			state.createAdminLoading = false;
+			state.createAdminError = null;
+			state.adminCreated = false;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getAdminInfo.pending, (state) => {
@@ -110,7 +141,21 @@ const adminSlice = createSlice({
 			.addCase(makeSuperUser.rejected, (state, action) => {
 				state.updateAdminLoading = false;
 				state.updateAdminError = action.payload.message || action.error.message;
-				state.adminUpdated = null;
+				state.adminUpdated = false;
+			});
+		builder
+			.addCase(createNewAdmin.pending, (state) => {
+				state.createAdminLoading = true;
+			})
+			.addCase(createNewAdmin.fulfilled, (state) => {
+				state.createAdminLoading = false;
+				state.createAdminError = null;
+				state.adminCreated = true;
+			})
+			.addCase(createNewAdmin.rejected, (state, action) => {
+				state.createAdminLoading = false;
+				state.createAdminError = action.payload.message || action.error.message;
+				state.adminCreated = false;
 			});
 	},
 });
@@ -118,4 +163,6 @@ const adminSlice = createSlice({
 export const selectAdminSlice = (state) => state.admin;
 export const selectCurrentAdmin = (state) => state.admin.adminInfo;
 export const selectAdmins = (state) => state.admin.admins;
+
+export const { resetCreateAdmin, resetUpdateAdmin } = adminSlice.actions;
 export default adminSlice.reducer;

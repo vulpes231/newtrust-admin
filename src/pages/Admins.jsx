@@ -1,15 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectNavSlice } from "../features/navSlice";
 import { Authnav, Table } from "../components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import {
 	getAdminInfo,
 	getAllAdmins,
 	selectAdminSlice,
-	selectAdmins,
-	selectCurrentAdmin,
 } from "../features/adminSlice";
+import Createadmin from "./adminsModal/Createadmin";
 
 const headers = [
 	{ id: "username", title: "username" },
@@ -28,16 +27,16 @@ const Admins = () => {
 	const { darkMode } = useSelector(selectNavSlice);
 	const { admins, adminInfo } = useSelector(selectAdminSlice);
 
+	const [createAdminModal, setCreateAdminModal] = useState(false);
+
 	useEffect(() => {
 		dispatch(getAllAdmins());
 		dispatch(getAdminInfo());
 	}, []);
 
 	useEffect(() => {
-		if (adminInfo) {
-			console.log(adminInfo);
-		}
-	}, [adminInfo]);
+		document.title = "Itrust Investment | Manage Admins";
+	}, []);
 	return (
 		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex flex-col gap-6 h-screen overflow-auto">
 			<Authnav darkMode={darkMode} />
@@ -54,6 +53,9 @@ const Admins = () => {
 				buttons={buttons}
 				data={admins}
 			/>
+			{createAdminModal && (
+				<Createadmin onClose={() => setCreateAdminModal(false)} />
+			)}
 		</div>
 	);
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styles } from "../style";
 import { Dashcontent, Sidebar } from "../components";
 import { useSelector } from "react-redux";
@@ -12,6 +12,12 @@ import Admins from "./Admins";
 
 const Dashboard = () => {
 	const { activeLink } = useSelector(selectNavSlice);
+
+	useEffect(() => {
+		if (activeLink === "dashboard") {
+			document.title = "Itrust Investment | Dashboard";
+		}
+	}, [activeLink]);
 	return (
 		<section
 			className={`w-full grid grid-cols-4 h-screen bg-slate-200 dark:bg-slate-950 `}

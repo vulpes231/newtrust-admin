@@ -15,4 +15,15 @@ const sideBarLinks = [
 	{ id: "profile", name: "profile" },
 ];
 
-export { devServer, getAccessToken, liveServer, sideBarLinks };
+const handleFormChange = (e, form, handleForm) => {
+	const { name, value } = e.target;
+	handleForm({ ...form, [name]: value });
+};
+
+export {
+	devServer,
+	getAccessToken,
+	liveServer,
+	sideBarLinks,
+	handleFormChange,
+};

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { styles } from "../style";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
-	const [currentAction, setCurrentAction] = useState(null);
-	const [itemId, setItemId] = useState(null);
+	const [currentAction, setCurrentAction] = useState("");
+	const [itemId, setItemId] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showAddSuper, setShowAddSuper] = useState(false);
 	const [showRemoveSuper, setShowRemoveSuper] = useState(false);
@@ -51,7 +51,7 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 					</tr>
 				</thead>
 
-				<tbody className="bg-white/30 dark:bg-slate-950/30 backdrop-blur-md border border-white/20 dark:border-slate-700/30 shadow-md">
+				<tbody className="bg-white dark:bg-slate-950 backdrop-blur-md border border-white/20 dark:border-slate-700/30 shadow-md">
 					{data && data.length > 0 ? (
 						data.map((dt, index) => (
 							<tr key={index} className="">
