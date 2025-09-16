@@ -17,7 +17,7 @@ export const getAdminInfo = createAsyncThunk(
 	"admin/getAdminInfo",
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await api.get("/admin");
+			const response = await api.get(`/manageadmin`);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -34,7 +34,7 @@ export const getAllAdmins = createAsyncThunk(
 	"admin/getAllAdmins",
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await api.get("/manageadmin");
+			const response = await api.get("/manageadmin/all");
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(

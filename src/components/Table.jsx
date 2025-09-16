@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styles } from "../style";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
+	const [currentAction, setCurrentAction] = useState(null);
+	const [itemId, setItemId] = useState(null);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showAddSuper, setShowAddSuper] = useState(false);
+	const [showRemoveSuper, setShowRemoveSuper] = useState(false);
+
+	const getNestedValue = (obj, path) => {
+		return path.split(".").reduce((current, key) => {
+			return current ? current[key] : "N/A";
+		}, obj);
+	};
+
+	const handleAction = (e, item) => {
+		setCurrentAction(e.target.value);
+		setItemId(item);
+	};
+
+	useEffect(() => {
+		if (currentAction === "delete admin") {
+			// setShowDeleteModal(true);
+			console.log("Delete Admin", itemId);
+		} else if (currentAction === "addsu") {
+			console.log("Make superuser", itemId);
+		} else if (currentAction === "removesu") {
+			console.log("remove superuser", itemId);
+		}
+	}, [currentAction]);
+
 	return (
 		<div className="overflow-x-auto p-4">
 			<table className="min-w-full border-collapse border border-gray-300 dark:border-slate-700">
@@ -28,26 +56,45 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 						data.map((dt, index) => (
 							<tr key={index} className="">
 								{headers.map((hd) => {
-									// const role = hd.id === role && dt[hd.id][0] === "0001" ? "super" : "admin"
-									<td
-										key={hd.id}
-										className="px-4 py-2 border border-gray-300 dark:border-slate-700"
-									>
-										{dt[hd.id]}
-									</td>;
+									const role = dt[hd.id];
+									const roleMap = {
+										"0001": "super",
+										"0010": "admin",
+									};
+
+									const customRole = `${roleMap[role[0]]},  ${
+										roleMap[role[1]]
+									}`;
+
+									return (
+										<td
+											key={hd.id}
+											className="px-4 py-2 border border-gray-300 dark:border-slate-700"
+										>
+											{hd.id === "role"
+												? customRole
+												: getNestedValue(dt, hd.id)}
+										</td>
+									);
 								})}
 								<td className="px-4 py-2 border border-gray-300 dark:border-slate-700">
 									{/* example action */}
-									<div className="flex flex-col gap-2">
-										{buttons &&
+									<select
+										className="flex flex-col gap-2"
+										name="currentAction"
+										onChange={(e) => handleAction(e, dt._id)}
+										value={currentAction}
+									>
+										<option value="">choose action</option>
+										{buttons.length > 0 &&
 											buttons.map((btn) => {
 												return (
-													<button key={btn.id} className="text-blue-600">
-														{btn.name}
-													</button>
+													<option key={btn.id} value={btn.id}>
+														{btn.title}
+													</option>
 												);
 											})}
-									</div>
+									</select>
 								</td>
 							</tr>
 						))

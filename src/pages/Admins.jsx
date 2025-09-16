@@ -2,7 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectNavSlice } from "../features/navSlice";
 import { Authnav, Table } from "../components";
 import { useEffect } from "react";
-import { getAllAdmins, selectAdmins } from "../features/adminSlice";
+
+import {
+	getAdminInfo,
+	getAllAdmins,
+	selectAdminSlice,
+	selectAdmins,
+	selectCurrentAdmin,
+} from "../features/adminSlice";
 
 const headers = [
 	{ id: "username", title: "username" },
@@ -11,28 +18,36 @@ const headers = [
 ];
 
 const buttons = [
-	{ id: "add", title: "make SU" },
-	{ id: "remove", title: "unmake SU" },
-	{ id: "delete", title: "delete" },
+	{ id: "addsu", title: "make SU" },
+	{ id: "removesu", title: "unmake SU" },
+	{ id: "delete admin", title: "delete" },
 ];
 
 const Admins = () => {
 	const dispatch = useDispatch();
 	const { darkMode } = useSelector(selectNavSlice);
-	const admins = useSelector(selectAdmins);
+	const { admins, adminInfo } = useSelector(selectAdminSlice);
 
 	useEffect(() => {
 		dispatch(getAllAdmins());
+		dispatch(getAdminInfo());
 	}, []);
 
 	useEffect(() => {
-		if (admins) {
-			console.log(admins);
+		if (adminInfo) {
+			console.log(adminInfo);
 		}
-	}, [admins]);
+	}, [adminInfo]);
 	return (
 		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex flex-col gap-6 h-screen overflow-auto">
 			<Authnav darkMode={darkMode} />
+			<div
+				className={
+					adminInfo?.role?.includes("0001") ? "flex justify-end p-6" : "hidden"
+				}
+			>
+				<button>create admin</button>
+			</div>
 			<Table
 				headers={headers}
 				nullText={"You have no admins."}
