@@ -27,7 +27,7 @@ const CustomInput = ({
 				className="w-full px-3 py-2 text-md md:text-base rounded-lg border border-gray-300 dark:border-gray-600 
 					bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100
 					focus:outline-none focus:ring-2 focus:ring-[#2156be] focus:border-[#2156be]
-					transition duration-200 ease-in-out shadow-sm"
+					transition duration-200 ease-in-out shadow-sm h-[46px]"
 			/>
 		</div>
 	);

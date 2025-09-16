@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Loadingmodal = ({ text }) => {
 	return (
-		<div className="w-full h-screen bg-black/50 fixed top-0 left-0 flex items-center justify-center z-50">
+		<div className="w-full h-screen bg-black/50 fixed top-0 left-0 flex items-center justify-center z-[1000]">
 			<motion.div
 				initial={{ opacity: 0, scale: 0.9 }}
 				animate={{ opacity: 1, scale: 1 }}

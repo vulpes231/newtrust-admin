@@ -72,7 +72,26 @@ export const createNewAdmin = createAsyncThunk(
 	"admin/createNewAdmin",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await api.post(`/login`, formData);
+			const response = await api.post(`/register`, formData);
+			console.log(response);
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response?.data || {
+					message: error.message,
+					statusCode: error.statusCode,
+				}
+			);
+		}
+	}
+);
+
+export const deleteAdmin = createAsyncThunk(
+	"admin/deleteAdmin",
+	async (formData, { rejectWithValue }) => {
+		try {
+			const response = await api.delete(`/manageadmin`, formData);
+			console.log(response);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(

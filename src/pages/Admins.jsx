@@ -9,6 +9,7 @@ import {
 	selectAdminSlice,
 } from "../features/adminSlice";
 import Createadmin from "./adminsModal/Createadmin";
+import { styles } from "../style";
 
 const headers = [
 	{ id: "username", title: "username" },
@@ -34,6 +35,12 @@ const Admins = () => {
 		dispatch(getAdminInfo());
 	}, []);
 
+	// useEffect(() => {
+	// 	if (adminInfo) {
+	// 		console.log(adminInfo.role);
+	// 	}
+	// }, [adminInfo]);
+
 	useEffect(() => {
 		document.title = "Itrust Investment | Manage Admins";
 	}, []);
@@ -42,10 +49,17 @@ const Admins = () => {
 			<Authnav darkMode={darkMode} />
 			<div
 				className={
-					adminInfo?.role?.includes("0001") ? "flex justify-end p-6" : "hidden"
+					adminInfo && adminInfo.role.includes("0001")
+						? "flex justify-end p-6"
+						: "hidden"
 				}
 			>
-				<button>create admin</button>
+				<button
+					onClick={() => setCreateAdminModal(true)}
+					className={`${styles.color.accent} h-[40px] px-4 rounded-sm md:rounded-md font-medium capitalize hover:bg-gradient-to-l from-[#2156be] to-indigo-600`}
+				>
+					create admin
+				</button>
 			</div>
 			<Table
 				headers={headers}

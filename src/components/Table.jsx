@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { styles } from "../style";
+import Deleteadmin from "../pages/adminsModal/Deleteadmin";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
-	const [currentAction, setCurrentAction] = useState("");
 	const [itemId, setItemId] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showAddSuper, setShowAddSuper] = useState(false);
 	const [showRemoveSuper, setShowRemoveSuper] = useState(false);
+
+	const [rowActions, setRowActions] = useState({}); // { rowId: actionValue }
+
+	const handleAction = (e, id) => {
+		setRowActions((prev) => ({
+			...prev,
+			[id]: e.target.value,
+		}));
+		setItemId(id);
+	};
 
 	const getNestedValue = (obj, path) => {
 		return path.split(".").reduce((current, key) => {
@@ -14,21 +24,17 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 		}, obj);
 	};
 
-	const handleAction = (e, item) => {
-		setCurrentAction(e.target.value);
-		setItemId(item);
-	};
-
 	useEffect(() => {
-		if (currentAction === "delete admin") {
+		if (rowActions[itemId] === "delete admin") {
 			// setShowDeleteModal(true);
 			console.log("Delete Admin", itemId);
-		} else if (currentAction === "addsu") {
+			setShowDeleteModal(true);
+		} else if (rowActions[itemId] === "addsu") {
 			console.log("Make superuser", itemId);
-		} else if (currentAction === "removesu") {
+		} else if (rowActions[itemId] === "removesu") {
 			console.log("remove superuser", itemId);
 		}
-	}, [currentAction]);
+	}, [rowActions]);
 
 	return (
 		<div className="overflow-x-auto p-4">
@@ -58,22 +64,40 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 								{headers.map((hd) => {
 									const role = dt[hd.id];
 									const roleMap = {
-										"0001": "super",
+										"0001": "superuser",
 										"0010": "admin",
 									};
 
-									const customRole = `${roleMap[role[0]]},  ${
-										roleMap[role[1]]
-									}`;
+									// console.log("roles", dt);
+
+									const customRole = Array.isArray(role)
+										? role.map((rl, index) => {
+												return (
+													<div key={index}>
+														<h6
+															className={`${
+																roleMap[rl] === "superuser"
+																	? "bg-red-600/20"
+																	: "bg-green-600/20 "
+															} py-1 px-2 rounded-xl`}
+														>
+															{roleMap[rl]}
+														</h6>
+													</div>
+												);
+										  })
+										: null;
 
 									return (
 										<td
 											key={hd.id}
 											className="px-4 py-2 border border-gray-300 dark:border-slate-700"
 										>
-											{hd.id === "role"
-												? customRole
-												: getNestedValue(dt, hd.id)}
+											<div className="flex items-center gap-2 whitespace-nowrap w-full">
+												{hd.id === "role"
+													? customRole
+													: getNestedValue(dt, hd.id)}
+											</div>
 										</td>
 									);
 								})}
@@ -83,17 +107,14 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 										className="flex flex-col gap-2"
 										name="currentAction"
 										onChange={(e) => handleAction(e, dt._id)}
-										value={currentAction}
+										value={rowActions[dt._id] || ""} // row-specific
 									>
 										<option value="">choose action</option>
-										{buttons.length > 0 &&
-											buttons.map((btn) => {
-												return (
-													<option key={btn.id} value={btn.id}>
-														{btn.title}
-													</option>
-												);
-											})}
+										{buttons.map((btn) => (
+											<option key={btn.id} value={btn.id}>
+												{btn.title}
+											</option>
+										))}
 									</select>
 								</td>
 							</tr>
@@ -124,6 +145,15 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 					</button>
 				</span>
 			</div>
+			{showDeleteModal && (
+				<Deleteadmin
+					itemId={itemId}
+					onClose={() => {
+						setRowActions({});
+						setShowDeleteModal(false);
+					}}
+				/>
+			)}
 		</div>
 	);
 };
