@@ -27,7 +27,7 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	useEffect(() => {
 		if (rowActions[itemId] === "delete admin") {
 			// setShowDeleteModal(true);
-			console.log("Delete Admin", itemId);
+			// console.log("Delete Admin", itemId);
 			setShowDeleteModal(true);
 		} else if (rowActions[itemId] === "addsu") {
 			console.log("Make superuser", itemId);

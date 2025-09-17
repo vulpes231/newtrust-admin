@@ -14,6 +14,9 @@ const initialState = {
 	createAdminLoading: false,
 	createAdminError: null,
 	adminCreated: false,
+	deleteAdminLoading: false,
+	deleteAdminError: null,
+	adminDeleted: false,
 };
 
 export const getAdminInfo = createAsyncThunk(
@@ -90,7 +93,8 @@ export const deleteAdmin = createAsyncThunk(
 	"admin/deleteAdmin",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await api.delete(`/manageadmin`, formData);
+			console.log(formData);
+			const response = await api.delete(`/manageadmin`, { data: formData });
 			console.log(response);
 			return response.data;
 		} catch (error) {
@@ -117,6 +121,11 @@ const adminSlice = createSlice({
 			state.createAdminLoading = false;
 			state.createAdminError = null;
 			state.adminCreated = false;
+		},
+		resetDeleteAdmin(state) {
+			state.deleteAdminLoading = false;
+			state.deleteAdminError = null;
+			state.adminDeleted = false;
 		},
 	},
 	extraReducers: (builder) => {
@@ -176,6 +185,20 @@ const adminSlice = createSlice({
 				state.createAdminError = action.payload.message || action.error.message;
 				state.adminCreated = false;
 			});
+		builder
+			.addCase(deleteAdmin.pending, (state) => {
+				state.deleteAdminLoading = true;
+			})
+			.addCase(deleteAdmin.fulfilled, (state) => {
+				state.deleteAdminLoading = false;
+				state.deleteAdminError = null;
+				state.adminDeleted = true;
+			})
+			.addCase(deleteAdmin.rejected, (state, action) => {
+				state.deleteAdminLoading = false;
+				state.deleteAdminError = action.payload.message || action.error.message;
+				state.adminDeleted = false;
+			});
 	},
 });
 
@@ -183,5 +206,6 @@ export const selectAdminSlice = (state) => state.admin;
 export const selectCurrentAdmin = (state) => state.admin.adminInfo;
 export const selectAdmins = (state) => state.admin.admins;
 
-export const { resetCreateAdmin, resetUpdateAdmin } = adminSlice.actions;
+export const { resetCreateAdmin, resetUpdateAdmin, resetDeleteAdmin } =
+	adminSlice.actions;
 export default adminSlice.reducer;
