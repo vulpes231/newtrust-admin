@@ -53,12 +53,11 @@ export const getAllAdmins = createAsyncThunk(
 	}
 );
 
-export const makeSuperUser = createAsyncThunk(
-	"admin/makeSuperUser",
+export const updateAdminRole = createAsyncThunk(
+	"admin/updateAdminRole",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const { adminId } = formData;
-			const response = await api.post(`/manageadmin/${adminId}`, formData);
+			const response = await api.put(`/manageadmin`, { data: formData });
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -158,15 +157,15 @@ const adminSlice = createSlice({
 				state.admins = null;
 			});
 		builder
-			.addCase(makeSuperUser.pending, (state) => {
+			.addCase(updateAdminRole.pending, (state) => {
 				state.updateAdminLoading = true;
 			})
-			.addCase(makeSuperUser.fulfilled, (state) => {
+			.addCase(updateAdminRole.fulfilled, (state) => {
 				state.updateAdminLoading = false;
 				state.updateAdminError = null;
 				state.adminUpdated = true;
 			})
-			.addCase(makeSuperUser.rejected, (state, action) => {
+			.addCase(updateAdminRole.rejected, (state, action) => {
 				state.updateAdminLoading = false;
 				state.updateAdminError = action.payload.message || action.error.message;
 				state.adminUpdated = false;

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { styles } from "../style";
 import Deleteadmin from "../pages/adminsModal/Deleteadmin";
+import Updaterole from "../pages/adminsModal/Updaterole";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	const [itemId, setItemId] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
-	const [showAddSuper, setShowAddSuper] = useState(false);
-	const [showRemoveSuper, setShowRemoveSuper] = useState(false);
+	const [showUpdateRole, setShowUpdateRole] = useState({
+		status: false,
+		action: "",
+	});
 
 	const [rowActions, setRowActions] = useState({}); // { rowId: actionValue }
 
@@ -29,10 +32,12 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 			// setShowDeleteModal(true);
 			// console.log("Delete Admin", itemId);
 			setShowDeleteModal(true);
-		} else if (rowActions[itemId] === "addsu") {
-			console.log("Make superuser", itemId);
-		} else if (rowActions[itemId] === "removesu") {
-			console.log("remove superuser", itemId);
+		} else if (
+			rowActions[itemId] === "addsu" ||
+			rowActions[itemId] === "removesu"
+		) {
+			console.log("update role", rowActions[itemId], itemId);
+			setShowUpdateRole({ status: true, action: rowActions[itemId] });
 		}
 	}, [rowActions]);
 
@@ -151,6 +156,20 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 					onClose={() => {
 						setRowActions({});
 						setShowDeleteModal(false);
+					}}
+				/>
+			)}
+			{showUpdateRole.status && (
+				<Updaterole
+					itemId={itemId}
+					action={showUpdateRole.action}
+					data={data}
+					onClose={() => {
+						setRowActions({});
+						setShowUpdateRole({
+							status: false,
+							action: "",
+						});
 					}}
 				/>
 			)}

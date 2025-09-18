@@ -1,43 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	deleteAdmin,
-	resetDeleteAdmin,
+	resetUpdateAdmin,
 	selectAdminSlice,
+	updateAdminRole,
 } from "../../features/adminSlice";
-// import { Errormodal, Loadingmodal, Successmodal } from "../../components";
 import { AnimatePresence, motion } from "framer-motion";
 import { styles } from "../../style";
 import { X, Trash2, CheckCircle2, Loader2 } from "lucide-react";
 
-const Deleteadmin = ({ itemId, onClose }) => {
+const Updaterole = ({ itemId, onClose, action, data }) => {
 	const dispatch = useDispatch();
 
 	const [error, setError] = useState("");
+	const [adminInfo, setAdminInfo] = useState("");
 
-	const { deleteAdminLoading, deleteAdminError, adminDeleted } =
+	const { updateAdminLoading, updateAdminError, adminUpdated } =
 		useSelector(selectAdminSlice);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(itemId);
-		const data = { adminId: itemId };
-		dispatch(deleteAdmin(data));
+
+		const data = { adminId: itemId, action: action };
+		console.log(data);
+		// dispatch(updateAdminRole(data));
 	};
 
 	useEffect(() => {
-		if (deleteAdminError) {
-			setError(deleteAdminError);
+		if (updateAdminError) {
+			setError(updateAdminError);
 		}
-	}, [deleteAdminError]);
-	// console.log(adminCreated);
+	}, [updateAdminError]);
+
+	useEffect(() => {
+		if (data) {
+			const admin = data.find((ad) => ad._id === itemId);
+			setAdminInfo(admin);
+		}
+	}, [data]);
 
 	useEffect(() => {
 		let timeout;
 		if (error) {
 			timeout = setTimeout(() => {
 				onClose();
-				dispatch(resetDeleteAdmin());
+				dispatch(resetUpdateAdmin());
 				// onClose();
 				setError("");
 			}, 3000);
@@ -47,15 +54,15 @@ const Deleteadmin = ({ itemId, onClose }) => {
 
 	useEffect(() => {
 		let timeout;
-		if (adminDeleted) {
+		if (adminUpdated) {
 			timeout = setTimeout(() => {
-				dispatch(resetDeleteAdmin());
+				dispatch(resetUpdateAdmin());
 				onClose();
 				window.location.reload();
 			}, 3000);
 		}
 		return () => clearTimeout(timeout);
-	}, [adminDeleted, dispatch]);
+	}, [adminUpdated, dispatch]);
 	return (
 		<AnimatePresence>
 			<motion.div
@@ -70,7 +77,8 @@ const Deleteadmin = ({ itemId, onClose }) => {
 					<h3 className={styles.font.subheading}>
 						<span className="flex items-center gap-2">
 							<Trash2 className="w-5 h-5 text-red-600 dark:text-red-500" />
-							Delete Admin {itemId}
+							Update SU Role for{" "}
+							<span className="capitalize">{adminInfo?.username}</span>
 						</span>
 					</h3>
 					<button
@@ -116,16 +124,16 @@ const Deleteadmin = ({ itemId, onClose }) => {
 					</motion.div>
 				)}
 
-				{adminDeleted && (
+				{adminUpdated && (
 					<motion.div
 						initial={{ opacity: 0, y: 10 }}
 						animate={{ opacity: 1, y: 0 }}
 						className="flex items-center gap-2 text-green-600 dark:text-green-400 text-sm mt-2"
 					>
 						<CheckCircle2 className="w-4 h-4" />
-						Admin deleted successfully.
+						Admin updated successfully.
 						<button
-							onClick={() => dispatch(resetDeleteAdmin)}
+							onClick={() => dispatch(resetUpdateAdmin)}
 							className="ml-auto text-xs underline hover:text-green-700 dark:hover:text-green-300"
 						>
 							Close
@@ -133,14 +141,14 @@ const Deleteadmin = ({ itemId, onClose }) => {
 					</motion.div>
 				)}
 
-				{deleteAdminLoading && (
+				{updateAdminLoading && (
 					<motion.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						className="flex items-center gap-2 text-blue-600 dark:text-blue-400 text-sm mt-2"
 					>
 						<Loader2 className="w-4 h-4 animate-spin" />
-						Deleting Admin...
+						Updating Admin...
 					</motion.div>
 				)}
 			</motion.div>
@@ -148,4 +156,4 @@ const Deleteadmin = ({ itemId, onClose }) => {
 	);
 };
 
-export default Deleteadmin;
+export default Updaterole;

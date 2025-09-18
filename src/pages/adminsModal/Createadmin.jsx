@@ -47,7 +47,7 @@ const Createadmin = ({ onClose }) => {
 			timeout = setTimeout(() => {
 				dispatch(resetCreateAdmin());
 				setError("");
-			});
+			}, 3000);
 		}
 		return () => clearTimeout(timeout);
 	}, [error, dispatch]);
