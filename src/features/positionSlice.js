@@ -12,6 +12,9 @@ const initialState = {
 	closePositionLoading: false,
 	closePositionError: null,
 	positionClosed: false,
+	createPositionLoading: false,
+	createPositionError: null,
+	positionCreated: false,
 	getPositionInfoLoading: false,
 	getPositionInfoError: null,
 	positionInfo: null,
@@ -122,6 +125,11 @@ const positionSlice = createSlice({
 			state.closePositionError = null;
 			state.positionClosed = false;
 		},
+		resetCreatePosition(state) {
+			state.createPositionLoading = false;
+			state.closePositionError = null;
+			state.positionCreated = false;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -184,6 +192,21 @@ const positionSlice = createSlice({
 					action.error.payload || action.error.message;
 				state.positionInfo = null;
 			});
+		builder
+			.addCase(createPosition.pending, (state) => {
+				state.createPositionLoading = true;
+			})
+			.addCase(createPosition.fulfilled, (state, action) => {
+				state.createPositionLoading = false;
+				state.createPositionError = false;
+				state.positionCreated = true;
+			})
+			.addCase(createPosition.rejected, (state, action) => {
+				state.createPositionLoading = false;
+				state.createPositionError =
+					action.error.payload || action.error.message;
+				state.positionCreated = false;
+			});
 	},
 });
 
@@ -191,6 +214,6 @@ export const selectPositionSlice = (state) => state.position;
 export const selectAllPositions = (state) => state.position.positions;
 export const selectCurrentPositionInfo = (state) => state.position.positionInfo;
 
-export const { resetClosePosition, resetUpdatePosition } =
+export const { resetClosePosition, resetUpdatePosition, resetCreatePosition } =
 	positionSlice.actions;
 export default positionSlice.reducer;

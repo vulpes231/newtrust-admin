@@ -4,13 +4,19 @@ import { selectNavSlice, setDarkMode } from "../features/navSlice";
 import { LucideMoon, LucideSun } from "lucide-react";
 import Logo from "./Logo";
 import { styles } from "../style";
-
+import { motion } from "framer-motion";
+import { fade } from "../style/variants";
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const { darkMode } = useSelector(selectNavSlice);
 
 	return (
-		<header className="flex items-center justify-center h-[80px] top-0 left-0 bg-slate-100 dark:bg-slate-800 text-[#333] dark:text-[#f0f0f0] fixed w-full">
+		<motion.header
+			variants={fade}
+			initial="hidden"
+			animate="visible"
+			className="flex items-center justify-center h-[80px] top-0 left-0 bg-[#fff] dark:bg-slate-800 text-[#333] dark:text-[#f0f0f0] fixed w-full"
+		>
 			<nav className="w-full max-w-7xl mx-auto flex items-center justify-between p-6">
 				<Logo />
 				<span>
@@ -31,7 +37,7 @@ const Navbar = () => {
 					</button>
 				</span>
 			</nav>
-		</header>
+		</motion.header>
 	);
 };
 

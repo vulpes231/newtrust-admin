@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styles } from "../style";
-import Deleteadmin from "../pages/adminsModal/Deleteadmin";
-import Updaterole from "../pages/adminsModal/Updaterole";
+import Deleteadmin from "../pages/adminmodals/Deleteadmin";
+import Updaterole from "../pages/adminmodals/Updaterole";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	const [itemId, setItemId] = useState("");

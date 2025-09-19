@@ -8,7 +8,7 @@ import {
 	getAllAdmins,
 	selectAdminSlice,
 } from "../features/adminSlice";
-import Createadmin from "./adminsModal/Createadmin";
+import Createadmin from "./adminmodals/Createadmin";
 import { styles } from "../style";
 
 const headers = [

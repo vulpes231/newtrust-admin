@@ -9,7 +9,7 @@ export const styles = {
 		background: "bg-slate-200 dark:bg-slate-950",
 		card: "bg-[#fff] dark:bg-slate-800/70 shadow-md rounded-xl rounded-2xl",
 		border: "border border-slate-300 dark:border-slate-700",
-		text: "text-[#333] dark:text-[#f9fafb]",
+		text: "text-slate-700 dark:text-slate-300",
 		mutedText: "text-gray-600 dark:text-gray-400",
 
 		button: {
@@ -32,5 +32,5 @@ export const styles = {
 		accent: "bg-gradient-to-r from-[#2156be] to-indigo-600 text-white",
 		highlight: "bg-yellow-200 dark:bg-yellow-500/30",
 	},
-	section: "p-6 w-full max-w-5xl mx-auto",
+	section: "px-3 py-10 md:p-6 w-full max-w-5xl mx-auto md:py-0",
 };

@@ -12,6 +12,8 @@ import {
 	selectLoginSlice,
 } from "../features/loginSlice";
 import { styles } from "../style";
+import { motion } from "framer-motion";
+import { card, dropIn, slideLeft } from "../style/variants";
 
 const Landing = () => {
 	const dispatch = useDispatch();
@@ -70,16 +72,19 @@ const Landing = () => {
 		<section
 			className={`${styles.section} ${styles.color.background} flex flex-col md:items-center md:justify-center h-screen`}
 		>
-			<form
+			<motion.form
+				variants={card}
+				initial="hidden"
+				animate="visible"
 				onSubmit={handleSubmit}
 				className={`${styles.color.card} p-8 max-w-md w-full mx-auto flex flex-col gap-6 h-auto mt-[80px]`}
 			>
 				<div>
 					<h3 className={`${styles.font.heading} ${styles.color.text}`}>
-						welcome back!
+						Welcome back!
 					</h3>
-					<h6 className={`${styles.font.subheading} ${styles.color.text}`}>
-						sign in to continue.
+					<h6 className={`font-normal text-[#9f9f9f] text-md md:text-base`}>
+						Sign in to continue.
 					</h6>
 				</div>
 				<div className="flex flex-col gap-4">
@@ -104,7 +109,7 @@ const Landing = () => {
 				>
 					{"Sign In"}
 				</button>
-			</form>
+			</motion.form>
 
 			{error && (
 				<Errormodal

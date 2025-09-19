@@ -4,7 +4,7 @@ const fade = {
 	visible: {
 		opacity: 1,
 		transition: {
-			duration: 0.4,
+			duration: 1.4,
 			ease: "easeInOut",
 		},
 	},
