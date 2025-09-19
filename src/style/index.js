@@ -7,7 +7,7 @@ export const styles = {
 	},
 	color: {
 		background: "bg-slate-200 dark:bg-slate-950",
-		card: "bg-[#fff] dark:bg-slate-900/70 shadow-md rounded-2xl",
+		card: "bg-[#fff] dark:bg-slate-800/70 shadow-md rounded-xl rounded-2xl",
 		border: "border border-slate-300 dark:border-slate-700",
 		text: "text-[#333] dark:text-[#f9fafb]",
 		mutedText: "text-gray-600 dark:text-gray-400",

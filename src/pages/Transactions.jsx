@@ -36,6 +36,7 @@ const Transactions = () => {
 				headers={headers}
 				nullText={"You have no transactions."}
 				buttons={buttons}
+				data={trnxs}
 			/>
 		</div>
 	);

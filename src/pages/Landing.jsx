@@ -72,7 +72,7 @@ const Landing = () => {
 		>
 			<form
 				onSubmit={handleSubmit}
-				className={`${styles.color.card} p-4 md:w-[400px] flex flex-col gap-6 md:p-8 h-full md:h-auto`}
+				className={`${styles.color.card} p-8 max-w-md w-full mx-auto flex flex-col gap-6 h-auto mt-[80px]`}
 			>
 				<div>
 					<h3 className={`${styles.font.heading} ${styles.color.text}`}>
@@ -82,7 +82,7 @@ const Landing = () => {
 						sign in to continue.
 					</h6>
 				</div>
-				<div>
+				<div className="flex flex-col gap-4">
 					<Custominput
 						label={"email"}
 						value={form.email}
@@ -100,7 +100,7 @@ const Landing = () => {
 				</div>
 				<button
 					type="submit"
-					className={`${styles.color.button.primary} ${styles.font.text} px-5 py-2.5 rounded-lg font-medium transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed`}
+					className={`${styles.color.accent} ${styles.font.text} px-5 py-2.5 rounded-lg font-medium md:font-semibold transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed mt-5 h-[48px] md:h-[49px] text-md md:text-base flex items-center justify-center`}
 				>
 					{"Sign In"}
 				</button>
