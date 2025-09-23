@@ -15,6 +15,13 @@ const sideBarLinks = [
 	{ id: "profile", name: "profile" },
 ];
 
+const supportedCoins = [
+	{ id: "btc", title: "btc", network: ["btc"] },
+	{ id: "eth", title: "eth", network: ["erc20"] },
+	{ id: "usdt", title: "usdt", network: ["erc20", "trc20"] },
+	{ id: "bank", title: "bank", network: ["bank"] },
+];
+
 const handleFormChange = (e, form, handleForm) => {
 	const { name, value } = e.target;
 	handleForm({ ...form, [name]: value });
@@ -26,4 +33,5 @@ export {
 	liveServer,
 	sideBarLinks,
 	handleFormChange,
+	supportedCoins,
 };

@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectNavSlice } from "../features/navSlice";
 import { Authnav, Table } from "../components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUsers, selectManageUserSlice } from "../features/manageUserSlice";
+import { styles } from "../style";
+import Createuser from "./usermodals/Createuser";
 
 const headers = [
 	{ id: "name", title: "name" },
@@ -33,6 +35,7 @@ const Users = () => {
 	return (
 		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex flex-col gap-6 h-screen overflow-auto">
 			<Authnav darkMode={darkMode} />
+
 			<Table
 				headers={headers}
 				nullText={"You have no users."}
