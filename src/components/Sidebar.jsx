@@ -53,7 +53,7 @@ const Sidebar = () => {
 								<LucideArrowDownCircle />
 							) : link.id === "settings" ? (
 								<LucideCog />
-							) : link.id === "profile" ? (
+							) : link.id === "verifications" ? (
 								<LucideUserLock />
 							) : null;
 						return (

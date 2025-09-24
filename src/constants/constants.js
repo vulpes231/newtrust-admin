@@ -12,7 +12,7 @@ const sideBarLinks = [
 	{ id: "transactions", name: "transactions" },
 	{ id: "positions", name: "positions" },
 	{ id: "settings", name: "settings" },
-	{ id: "profile", name: "profile" },
+	{ id: "verifications", name: "verifications" },
 ];
 
 const supportedCoins = [
