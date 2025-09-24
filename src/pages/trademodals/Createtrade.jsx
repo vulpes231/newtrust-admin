@@ -1,37 +1,82 @@
 import React, { useEffect, useState } from "react";
 import {
 	Custominput,
+	Customselect,
 	Errormodal,
 	Loadingmodal,
 	Successmodal,
 } from "../../components";
+import { handleFormChange } from "../../constants/constants";
 import { LucideX } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../style";
+import {
+	getUsers,
+	selectManageUserSlice,
+} from "../../features/manageUserSlice";
 import {
 	createPosition,
 	resetCreatePosition,
 	selectPositionSlice,
 } from "../../features/positionSlice";
-import { handleFormChange } from "../../constants/constants";
+import { getAllAssets, selectAssets } from "../../features/assetSlice";
 
 const Createtrade = ({ onClose }) => {
 	const dispatch = useDispatch();
+
 	const [form, setForm] = useState({
-		email: "",
-		username: "",
-		password: "",
-		adminRole: "",
+		userId: "",
+		walletId: "",
+		assetId: "",
+		amount: "",
+		orderType: "",
 	});
+
 	const [error, setError] = useState("");
+	const [searchResults, setSearchResults] = useState([]);
+	const [assetResults, setAssetResults] = useState([]);
+	const [searchValue, setSearchValue] = useState("");
+	const [assetValue, setAssetValue] = useState("");
 
 	const { createPositionLoading, createPositionError, positionCreated } =
 		useSelector(selectPositionSlice);
 
+	const { users } = useSelector(selectManageUserSlice);
+	const assets = useSelector(selectAssets);
+
+	// handle search input
+	const handleSearchUser = (e) => {
+		setSearchValue(e.target.value);
+	};
+
+	// select user from search results
+	const handleSelectUser = (user) => {
+		setForm((prev) => ({ ...prev, userId: user.id }));
+		setSearchValue(user.email);
+		setSearchResults([]);
+	};
+	const handleSelectAsset = (asset) => {
+		setForm((prev) => ({ ...prev, assetId: asset.id }));
+		setAssetValue(asset.name);
+		setAssetResults([]);
+	};
+
+	// submit transaction
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(form);
-		// dispatch(createPosition(form));
+		if (!form.userId) {
+			setError("Please select a user.");
+			return;
+		}
+		if (!form.assetId) {
+			setError("Please select an asset.");
+			return;
+		}
+		if (!form.orderType || !form.amount) {
+			setError("All fields are required.");
+			return;
+		}
+		dispatch(createPosition(form));
 	};
 
 	useEffect(() => {
@@ -39,7 +84,6 @@ const Createtrade = ({ onClose }) => {
 			setError(createPositionError);
 		}
 	}, [createPositionError]);
-	// console.log(adminCreated);
 
 	useEffect(() => {
 		let timeout;
@@ -58,11 +102,52 @@ const Createtrade = ({ onClose }) => {
 			timeout = setTimeout(() => {
 				dispatch(resetCreatePosition());
 				onClose();
-				window.location.reload();
-			}, 3000);
+			}, 2000);
 		}
 		return () => clearTimeout(timeout);
-	}, [positionCreated, dispatch]);
+	}, [positionCreated, dispatch, onClose]);
+
+	useEffect(() => {
+		if (searchValue.length > 2) {
+			const result =
+				users?.filter((usr) =>
+					usr.email.toLowerCase().includes(searchValue.toLowerCase())
+				) || [];
+			setSearchResults(result);
+		} else {
+			setSearchResults([]);
+		}
+	}, [searchValue, users]);
+
+	useEffect(() => {
+		if (assetValue.length > 2 && assets && assets.length > 0) {
+			const result =
+				assets?.filter((asset) =>
+					asset.name.toLowerCase().includes(assetValue.toLowerCase())
+				) || [];
+			setAssetResults(result);
+		} else {
+			setAssetResults([]);
+		}
+	}, [assetValue, assets]);
+
+	useEffect(() => {
+		dispatch(getUsers());
+		dispatch(getAllAssets());
+	}, [dispatch]);
+
+	// useEffect(() => {
+	// 	if (form.userId) {
+	// 		dispatch()
+	// 	}
+
+	// }, [dispatch]);
+
+	useEffect(() => {
+		if (assets) {
+			console.log(assets);
+		}
+	}, [assets]);
 
 	return (
 		<div className="fixed top-0 left-0 bg-black/50 backdrop-blur-sm flex items-center justify-center h-screen w-full p-4 md:p-0">
@@ -75,47 +160,84 @@ const Createtrade = ({ onClose }) => {
 						<LucideX />
 					</button>
 				</span>
-				<form action="" onSubmit={handleSubmit} className="flex flex-col gap-4">
-					<Custominput
-						label={"username"}
+
+				<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+					<Customselect
+						label="order type"
 						handleChange={(e) => handleFormChange(e, form, setForm)}
-						value={form.username}
-						name={"username"}
-						type={"text"}
-						// placeholder={}
+						value={form.type}
+						name="type"
+						optionLabel="Select order type"
+						options={[
+							{ id: "buy", title: "buy" },
+							{ id: "sell", title: "sell" },
+						]}
 					/>
-					<Custominput
-						label={"email"}
-						handleChange={(e) => handleFormChange(e, form, setForm)}
-						value={form.email}
-						name={"email"}
-						type={"text"}
-						// placeholder={}
-					/>
-					<Custominput
-						label={"password"}
-						handleChange={(e) => handleFormChange(e, form, setForm)}
-						value={form.password}
-						name={"password"}
-						type={"password"}
-						// placeholder={}
-					/>
-					<div className="flex flex-col gap-2 w-full">
-						<label htmlFor="role">
-							Add role <i>(Optional)</i>
-						</label>
-						<select
-							className="w-full px-3 py-2 text-md md:text-base rounded-lg border border-gray-300 dark:border-gray-600 
-							bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100
-							focus:outline-none focus:ring-2 focus:ring-[#2156be] focus:border-[#2156be]
-							transition duration-200 ease-in-out shadow-sm h-[46px]"
-							name="adminRole"
-							onChange={(e) => handleFormChange(e, form, setForm)}
-						>
-							<option value="">select role</option>
-							<option value="super_user">superuser</option>
-						</select>
+					<div className="relative">
+						<Custominput
+							label="select user"
+							handleChange={handleSearchUser}
+							value={searchValue}
+							name="searchValue"
+							type="text"
+							placeholder="Search by email"
+						/>
+						{searchResults.length > 0 && (
+							<div className="absolute top-full left-0 right-0 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-md mt-1 max-h-40 overflow-y-auto z-10">
+								{searchResults.map((res) => (
+									<div
+										key={res.id}
+										className="px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+										onClick={() => handleSelectUser(res)}
+									>
+										{res.email}
+									</div>
+								))}
+							</div>
+						)}
+						{searchValue.length > 2 && searchResults.length < 1 && (
+							<h6 className="absolute top-full mt-1 text-sm text-red-500">
+								No user found
+							</h6>
+						)}
 					</div>
+					<div className="relative">
+						<Custominput
+							label="select asset"
+							handleChange={handleSearchUser}
+							value={searchValue}
+							name="searchValue"
+							type="text"
+							placeholder="Search by asset name"
+						/>
+						{searchResults.length > 0 && (
+							<div className="absolute top-full left-0 right-0 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-md mt-1 max-h-40 overflow-y-auto z-10">
+								{searchResults.map((res) => (
+									<div
+										key={res.id}
+										className="px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+										onClick={() => handleSelectUser(res)}
+									>
+										{res.email}
+									</div>
+								))}
+							</div>
+						)}
+						{searchValue.length > 2 && searchResults.length < 1 && (
+							<h6 className="absolute top-full mt-1 text-sm text-red-500">
+								No asset found
+							</h6>
+						)}
+					</div>
+
+					<Custominput
+						label="amount"
+						handleChange={(e) => handleFormChange(e, form, setForm)}
+						value={form.amount}
+						name="amount"
+						type="number"
+						placeholder="Enter amount"
+					/>
 
 					<button
 						className={`${styles.color.accent} h-[48px] px-4 rounded-sm md:rounded-md font-medium capitalize hover:bg-gradient-to-l from-[#2156be] to-indigo-600 mt-5 cursor-pointer`}
@@ -125,14 +247,15 @@ const Createtrade = ({ onClose }) => {
 					</button>
 				</form>
 			</div>
+
 			{error && <Errormodal error={error} onClose={() => setError("")} />}
-			{positionCreated && (
+			{trnxCreated && (
 				<Successmodal
-					successText={"Postion added successfully."}
-					onClose={() => dispatch(resetCreatePosition)}
+					successText="Position created successfully."
+					onClose={() => dispatch(resetCreatePosition())}
 				/>
 			)}
-			{createPositionLoading && <Loadingmodal text={"Creating Position..."} />}
+			{createPositionLoading && <Loadingmodal text="Creating position..." />}
 		</div>
 	);
 };

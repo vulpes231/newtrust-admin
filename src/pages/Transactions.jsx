@@ -48,6 +48,7 @@ const Transactions = () => {
 				nullText={"You have no transactions."}
 				buttons={buttons}
 				data={trnxs}
+				pagination={trnxPagination}
 			/>
 			{createTrnxModal && (
 				<Createtrans onClose={() => setCreateTrnxModal(false)} />

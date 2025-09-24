@@ -41,6 +41,7 @@ const Users = () => {
 				nullText={"You have no users."}
 				buttons={buttons}
 				data={users}
+				pagination={userPagination}
 			/>
 		</div>
 	);

@@ -5,9 +5,11 @@ import navReducer from "../features/navSlice";
 import manageTrnxReducer from "../features/manageTrnxSlice";
 import adminReducer from "../features/adminSlice";
 import positionReducer from "../features/positionSlice";
+import assetReducer from "../features/assetSlice";
 
 const store = configureStore({
 	reducer: {
+		asset: assetReducer,
 		nav: navReducer,
 		login: loginReducer,
 		admin: adminReducer,

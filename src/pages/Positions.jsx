@@ -46,6 +46,7 @@ const Positions = () => {
 				nullText={"You have no position."}
 				buttons={buttons}
 				data={positions}
+				pagination={tradePagination}
 			/>
 		</div>
 	);
