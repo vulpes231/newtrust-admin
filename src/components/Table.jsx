@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { styles } from "../style";
 import Deleteadmin from "../pages/adminmodals/Deleteadmin";
 import Updaterole from "../pages/adminmodals/Updaterole";
+import Edituser from "../pages/usermodals/Edituser";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	const [itemId, setItemId] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showUserModal, setShowUserModal] = useState(false);
 	const [showUpdateRole, setShowUpdateRole] = useState({
 		status: false,
 		action: "",
@@ -54,7 +56,8 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 			console.log("update role", rowActions[itemId], itemId);
 			setShowUpdateRole({ status: true, action: rowActions[itemId] });
 		} else if (rowActions[itemId] === "edit user") {
-			console.log("Edit user", itemId);
+			// console.log("Edit user", itemId);
+			setShowUserModal(true);
 		}
 	}, [rowActions]);
 
@@ -187,6 +190,15 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 							status: false,
 							action: "",
 						});
+					}}
+				/>
+			)}
+			{showUserModal && (
+				<Edituser
+					userId={itemId}
+					onClose={() => {
+						setRowActions({});
+						setShowUserModal(false);
 					}}
 				/>
 			)}
