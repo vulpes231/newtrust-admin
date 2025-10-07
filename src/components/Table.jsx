@@ -22,15 +22,30 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	};
 
 	const getNestedValue = (obj, path) => {
-		return path.split(".").reduce((current, key) => {
-			return current ? current[key] : "N/A";
-		}, obj);
+		try {
+			const value = path.split(".").reduce((current, key) => {
+				return current && current[key] !== undefined ? current[key] : null;
+			}, obj);
+
+			// Ensure we never return an object
+			if (value === null || value === undefined) {
+				return "N/A";
+			}
+
+			if (typeof value === "object" && !Array.isArray(value)) {
+				// For objects, you might want to display a specific field or stringify
+				return Object.keys(value).length > 0 ? JSON.stringify(value) : "N/A";
+			}
+
+			return value;
+		} catch (error) {
+			console.error("Error accessing nested value:", error);
+			return "N/A";
+		}
 	};
 
 	useEffect(() => {
 		if (rowActions[itemId] === "delete admin") {
-			// setShowDeleteModal(true);
-			// console.log("Delete Admin", itemId);
 			setShowDeleteModal(true);
 		} else if (
 			rowActions[itemId] === "addsu" ||
@@ -38,6 +53,8 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 		) {
 			console.log("update role", rowActions[itemId], itemId);
 			setShowUpdateRole({ status: true, action: rowActions[itemId] });
+		} else if (rowActions[itemId] === "edit user") {
+			console.log("Edit user", itemId);
 		}
 	}, [rowActions]);
 

@@ -7,18 +7,14 @@ import { styles } from "../style";
 import Createuser from "./usermodals/Createuser";
 
 const headers = [
-	{ id: "name", title: "name" },
-	{ id: "email", title: "email" },
-	{ id: "mail verified", title: "mail verified" },
-	{ id: "kyc verified", title: "kyc verified" },
-	{ id: "account status", title: "account status" },
+	{ id: "name.firstName", title: "First Name" },
+	{ id: "name.lastName", title: "Last Name" },
+	{ id: "credentials.username", title: "Username" },
+	{ id: "contactInfo.email", title: "Email" },
+	{ id: "role", title: "Role" },
 ];
 
-const buttons = [
-	{ id: "edit", title: "edit" },
-	{ id: "suspend", title: "suspend" },
-	{ id: "delete", title: "delete" },
-];
+const buttons = [{ id: "edit user", title: "edit" }];
 
 const Users = () => {
 	const dispatch = useDispatch();

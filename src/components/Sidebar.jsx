@@ -64,7 +64,7 @@ const Sidebar = () => {
 								className={`cursor-pointer py-3 px-5 rounded-lg transition-colors duration-300 
 								${
 									activeLink === link.id
-										? `${styles.color.accent} font-medium shadow-md`
+										? `bg-indigo-600 font-medium shadow-md`
 										: `hover:bg-slate-300/20 dark:hover:bg-slate-700/30`
 								} capitalize flex items-center gap-2`}
 							>
