@@ -38,18 +38,20 @@ const Transactions = () => {
 			<div className={`flex justify-end px-6`}>
 				<button
 					onClick={() => setCreateTrnxModal(true)}
-					className={`${styles.color.accent} h-[40px] px-4 rounded-sm md:rounded-md font-medium capitalize hover:bg-gradient-to-l from-[#2156be] to-indigo-600`}
+					className={`bg-indigo-600 text-white h-[40px] px-4 rounded-sm md:rounded-md font-medium capitalize hover:bg-gradient-to-l from-[#2156be] to-indigo-600`}
 				>
 					create transaction
 				</button>
 			</div>
-			<Table
-				headers={headers}
-				nullText={"You have no transactions."}
-				buttons={buttons}
-				data={trnxs}
-				pagination={trnxPagination}
-			/>
+			<div className="p-6">
+				<Table
+					headers={headers}
+					nullText={"You have no transactions."}
+					buttons={buttons}
+					data={trnxs}
+					pagination={trnxPagination}
+				/>
+			</div>
 			{createTrnxModal && (
 				<Createtrans onClose={() => setCreateTrnxModal(false)} />
 			)}

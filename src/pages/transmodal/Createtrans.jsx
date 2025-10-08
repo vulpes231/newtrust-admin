@@ -7,16 +7,21 @@ import {
 	Successmodal,
 } from "../../components";
 import { handleFormChange, supportedCoins } from "../../constants/constants";
-import { LucideX } from "lucide-react";
+import {
+	LucideSearch,
+	LucideX,
+	LucideDollarSign,
+	LucideEye,
+	LucidePlusCircle,
+	LucideUserX,
+} from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { styles } from "../../style";
 import {
 	createTrnx,
 	resetAddTrnx,
 	selectManageTrnxSlice,
 } from "../../features/manageTrnxSlice";
 import { selectManageUserSlice } from "../../features/manageUserSlice";
-import { title } from "framer-motion/client";
 
 const Createtrans = ({ onClose }) => {
 	const dispatch = useDispatch();
@@ -46,8 +51,8 @@ const Createtrans = ({ onClose }) => {
 
 	// select user from search results
 	const handleSelectUser = (user) => {
-		setForm((prev) => ({ ...prev, userId: user.id }));
-		setSearchValue(user.email);
+		setForm((prev) => ({ ...prev, userId: user._id }));
+		setSearchValue(user.credentials.email);
 		setSearchResults([]);
 	};
 
@@ -62,7 +67,8 @@ const Createtrans = ({ onClose }) => {
 			setError("All fields are required.");
 			return;
 		}
-		dispatch(createTrnx(form));
+		console.log(form);
+		// dispatch(createTrnx(form));
 	};
 
 	useEffect(() => {
@@ -104,7 +110,9 @@ const Createtrans = ({ onClose }) => {
 		if (searchValue.length > 2) {
 			const result =
 				users?.filter((usr) =>
-					usr.email.toLowerCase().includes(searchValue.toLowerCase())
+					usr.credentials.email
+						.toLowerCase()
+						.includes(searchValue.toLowerCase())
 				) || [];
 			setSearchResults(result);
 		} else {
@@ -113,105 +121,230 @@ const Createtrans = ({ onClose }) => {
 	}, [searchValue, users]);
 
 	return (
-		<div className="fixed top-0 left-0 bg-black/50 backdrop-blur-sm flex items-center justify-center h-screen w-full p-4 md:p-0">
-			<div className="max-w-md mx-auto bg-white dark:bg-slate-950 p-6 md:p-10 w-full flex flex-col gap-6 border border-slate-300 dark:border-slate-700 rounded-lg md:rounded-2xl">
-				<span className="flex items-center justify-between">
-					<h3 className={`${styles.font.heading} capitalize`}>
-						create transaction
-					</h3>
-					<button onClick={onClose}>
-						<LucideX />
+		<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+			<div className="max-w-lg w-full mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-y-auto h-[600px] ">
+				{/* Header */}
+				<div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+					<div>
+						<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+							Create Transaction
+						</h3>
+						<p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+							Add a new deposit or withdrawal transaction
+						</p>
+					</div>
+					<button
+						onClick={onClose}
+						className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+					>
+						<LucideX className="w-5 h-5 text-gray-500 dark:text-gray-400" />
 					</button>
-				</span>
+				</div>
 
-				<form onSubmit={handleSubmit} className="flex flex-col gap-4">
-					<Customselect
-						label="type"
-						handleChange={(e) => handleFormChange(e, form, setForm)}
-						value={form.type}
-						name="type"
-						optionLabel="Select type"
-						options={[
-							{ id: "deposit", title: "deposit" },
-							{ id: "withdrawal", title: "withdrawal" },
-						]}
-					/>
-
-					<Customselect
-						label="method"
-						handleChange={(e) => handleFormChange(e, form, setForm)}
-						value={form.method}
-						name="method"
-						optionLabel="Select deposit method"
-						options={supportedCoins}
-					/>
-
-					{form.method && (
+				{/* Form */}
+				<form onSubmit={handleSubmit} className="p-6 space-y-6">
+					{/* Transaction Type */}
+					<div className="space-y-2">
+						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+							Transaction Type *
+						</label>
 						<Customselect
-							label="network"
+							label=""
 							handleChange={(e) => handleFormChange(e, form, setForm)}
-							value={form.network}
-							name="network"
-							optionLabel="Select network"
-							options={networks}
+							value={form.type}
+							name="type"
+							optionLabel="Select transaction type"
+							options={[
+								{ id: "deposit", title: "Deposit" },
+								{ id: "withdrawal", title: "Withdrawal" },
+							]}
+							className="w-full"
 						/>
+					</div>
+
+					{/* Payment Method */}
+					<div className="space-y-2">
+						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+							Payment Method *
+						</label>
+						<Customselect
+							label=""
+							handleChange={(e) => handleFormChange(e, form, setForm)}
+							value={form.method}
+							name="method"
+							optionLabel="Select payment method"
+							options={supportedCoins}
+							className="w-full"
+						/>
+					</div>
+
+					{/* Network Selection */}
+					{form.method && (
+						<div className="space-y-2">
+							<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+								Network *
+							</label>
+							<Customselect
+								label=""
+								handleChange={(e) => handleFormChange(e, form, setForm)}
+								value={form.network}
+								name="network"
+								optionLabel="Select network"
+								options={networks}
+								className="w-full"
+							/>
+						</div>
 					)}
 
-					<div className="relative">
-						<Custominput
-							label="select user"
-							handleChange={handleSearchUser}
-							value={searchValue}
-							name="searchValue"
-							type="text"
-							placeholder="Search by email"
-						/>
-						{searchResults.length > 0 && (
-							<div className="absolute top-full left-0 right-0 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-md mt-1 max-h-40 overflow-y-auto z-10">
-								{searchResults.map((res) => (
-									<div
-										key={res.id}
-										className="px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
-										onClick={() => handleSelectUser(res)}
-									>
-										{res.email}
-									</div>
-								))}
+					{/* User Search */}
+					<div className="space-y-2">
+						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+							Select User *
+						</label>
+						<div className="relative">
+							<Custominput
+								label=""
+								handleChange={handleSearchUser}
+								value={searchValue}
+								name="searchValue"
+								type="text"
+								placeholder="Search user by email address..."
+								className="w-full pr-10"
+							/>
+							<div className="absolute right-3 top-3">
+								<LucideSearch className="w-4 h-4 text-gray-400" />
 							</div>
-						)}
-						{searchValue.length > 2 && searchResults.length < 1 && (
-							<h6 className="absolute top-full mt-1 text-sm text-red-500">
-								No results found
-							</h6>
+
+							{/* Search Results Dropdown */}
+							{searchResults.length > 0 && (
+								<div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg mt-1 max-h-48 overflow-y-auto shadow-lg z-10">
+									{searchResults.map((user) => (
+										<div
+											key={user._id}
+											className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-600 last:border-b-0 transition-colors duration-150"
+											onClick={() => handleSelectUser(user)}
+										>
+											<div className="flex flex-col">
+												<span className="font-medium text-gray-900 dark:text-white">
+													{user.credentials.email}
+												</span>
+												{user.name && (
+													<span className="text-sm text-gray-500 dark:text-gray-400">
+														{user.credentials.username}
+													</span>
+												)}
+											</div>
+										</div>
+									))}
+								</div>
+							)}
+
+							{/* No Results Message */}
+							{searchValue.length > 2 && searchResults.length === 0 && (
+								<div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg mt-1 p-4 text-center">
+									<LucideUserX className="w-6 h-6 text-gray-400 mx-auto mb-2" />
+									<p className="text-sm text-gray-500 dark:text-gray-400">
+										No users found matching "{searchValue}"
+									</p>
+								</div>
+							)}
+						</div>
+					</div>
+
+					{/* Amount */}
+					<div className="space-y-2">
+						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+							Amount *
+						</label>
+						<div className="relative">
+							<Custominput
+								label=""
+								handleChange={(e) => handleFormChange(e, form, setForm)}
+								value={form.amount}
+								name="amount"
+								type="number"
+								placeholder="0.00"
+								step="0.01"
+								min="0"
+								className="w-full pl-8"
+							/>
+							<div className="absolute left-3 top-3">
+								<LucideDollarSign className="w-4 h-4 text-gray-400" />
+							</div>
+						</div>
+						{form.method && (
+							<p className="text-xs text-gray-500 dark:text-gray-400">
+								Amount in {form.method.toUpperCase()}
+							</p>
 						)}
 					</div>
 
-					<Custominput
-						label="amount"
-						handleChange={(e) => handleFormChange(e, form, setForm)}
-						value={form.amount}
-						name="amount"
-						type="number"
-						placeholder="Enter amount"
-					/>
+					{/* Summary Preview */}
+					{form.type && form.method && form.amount && (
+						<div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-4">
+							<h4 className="font-medium text-indigo-900 dark:text-indigo-100 mb-2 flex items-center gap-2">
+								<LucideEye className="w-4 h-4" />
+								Transaction Summary
+							</h4>
+							<div className="space-y-1 text-sm">
+								<div className="flex justify-between">
+									<span className="text-indigo-700 dark:text-indigo-300">
+										Type:
+									</span>
+									<span className="font-medium text-indigo-900 dark:text-indigo-100 capitalize">
+										{form.type}
+									</span>
+								</div>
+								<div className="flex justify-between">
+									<span className="text-indigo-700 dark:text-indigo-300">
+										Method:
+									</span>
+									<span className="font-medium text-indigo-900 dark:text-indigo-100 uppercase">
+										{form.method}
+									</span>
+								</div>
+								<div className="flex justify-between">
+									<span className="text-indigo-700 dark:text-indigo-300">
+										Amount:
+									</span>
+									<span className="font-medium text-indigo-900 dark:text-indigo-100">
+										{form.amount} {form.method.toUpperCase()}
+									</span>
+								</div>
+							</div>
+						</div>
+					)}
 
+					{/* Submit Button */}
 					<button
-						className={`${styles.color.accent} h-[48px] px-4 rounded-sm md:rounded-md font-medium capitalize hover:bg-gradient-to-l from-[#2156be] to-indigo-600 mt-5 cursor-pointer`}
 						type="submit"
+						disabled={createTrnxLoading}
+						className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
 					>
-						create transaction
+						{createTrnxLoading ? (
+							<>
+								<div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+								Creating Transaction...
+							</>
+						) : (
+							<>
+								<LucidePlusCircle className="w-4 h-4" />
+								Create Transaction
+							</>
+						)}
 					</button>
 				</form>
 			</div>
 
+			{/* Modals */}
 			{error && <Errormodal error={error} onClose={() => setError("")} />}
+
 			{trnxCreated && (
 				<Successmodal
-					successText="Transaction created successfully."
+					successText="Transaction created successfully"
 					onClose={() => dispatch(resetAddTrnx())}
 				/>
 			)}
-			{createTrnxLoading && <Loadingmodal text="Creating transaction..." />}
 		</div>
 	);
 };

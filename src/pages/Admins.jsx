@@ -56,17 +56,19 @@ const Admins = () => {
 			>
 				<button
 					onClick={() => setCreateAdminModal(true)}
-					className={`${styles.color.accent} h-[40px] px-4 rounded-sm md:rounded-md font-medium capitalize hover:bg-gradient-to-l from-[#2156be] to-indigo-600`}
+					className={`bg-indigo-600 text-white h-[40px] px-4 rounded-sm md:rounded-md font-medium capitalize hover:bg-gradient-to-l from-[#2156be] to-indigo-600`}
 				>
 					create admin
 				</button>
 			</div>
-			<Table
-				headers={headers}
-				nullText={"You have no admins."}
-				buttons={buttons}
-				data={admins}
-			/>
+			<div className="p-6">
+				<Table
+					headers={headers}
+					nullText={"You have no admins."}
+					buttons={buttons}
+					data={admins}
+				/>
+			</div>
 			{createAdminModal && (
 				<Createadmin onClose={() => setCreateAdminModal(false)} />
 			)}

@@ -48,7 +48,7 @@ const Chart = () => {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
 			{/* Line Chart */}
-			<div className="bg-white dark:bg-slate-950 text-gray-800 dark:text-white shadow-md rounded-2xl p-6 border border-slate-300 dark:border-slate-700">
+			<div className="bg-white dark:bg-slate-800/20 text-gray-800 dark:text-white shadow-md rounded-2xl p-6 border border-slate-300 dark:border-slate-700">
 				<h2 className="text-lg font-semibold mb-4">Revenue</h2>
 				<ResponsiveContainer width="100%" height={300}>
 					<LineChart data={lineData}>
@@ -85,7 +85,7 @@ const Chart = () => {
 
 			{/* Doughnut Chart */}
 			{/* Doughnut Chart */}
-			<div className="bg-white dark:bg-slate-950 dark:text-slate-300 shadow-md rounded-2xl p-6 flex flex-col items-center border border-slate-300 dark:border-slate-700">
+			<div className="bg-white dark:bg-slate-800/20 dark:text-slate-300 shadow-md rounded-2xl p-6 flex flex-col items-center border border-slate-300 dark:border-slate-700">
 				<h2 className="text-lg font-semibold mb-4">System Overview</h2>
 				<div className="w-64 h-64">
 					<Doughnut
