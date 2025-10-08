@@ -88,23 +88,6 @@ export const updateUser = createAsyncThunk(
 	}
 );
 
-export const deleteUser = createAsyncThunk(
-	"manageuser/deleteUser",
-	async (formData, { rejectWithValue }) => {
-		try {
-			const response = await api.delete("/manageuser", { data: formData });
-			return response.data;
-		} catch (error) {
-			return rejectWithValue(
-				error.response?.data || {
-					message: error.message,
-					statusCode: error.statusCode,
-				}
-			);
-		}
-	}
-);
-
 const manageUserSlice = createSlice({
 	name: "manageuser",
 	initialState,
@@ -118,11 +101,6 @@ const manageUserSlice = createSlice({
 			state.addUserLoading = false;
 			state.addUserError = null;
 			state.userAdded = false;
-		},
-		resetRemoveUser(state) {
-			state.removeUserLoading = false;
-			state.removeUserError = null;
-			state.userRemoved = false;
 		},
 	},
 	extraReducers: (builder) => {
@@ -185,20 +163,6 @@ const manageUserSlice = createSlice({
 				state.addUserError = action.payload.message || action.error.message;
 				state.userAdded = false;
 			});
-		builder
-			.addCase(deleteUser.pending, (state) => {
-				state.removeUserLoading = true;
-			})
-			.addCase(deleteUser.fulfilled, (state) => {
-				state.removeUserLoading = false;
-				state.removeUserError = null;
-				state.userRemoved = true;
-			})
-			.addCase(deleteUser.rejected, (state, action) => {
-				state.removeUserLoading = false;
-				state.removeUserError = action.payload.message || action.error.message;
-				state.userRemoved = false;
-			});
 	},
 });
 
@@ -206,6 +170,5 @@ export const selectManageUserSlice = (state) => state.manageuser;
 export const selectUsers = (state) => state.manageuser.users;
 export const selectCurrentUser = (state) => state.manageuser.currentUser;
 
-export const { resetAddUser, resetEditUser, resetRemoveUser } =
-	manageUserSlice.actions;
+export const { resetAddUser, resetEditUser } = manageUserSlice.actions;
 export default manageUserSlice.reducer;

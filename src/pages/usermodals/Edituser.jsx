@@ -182,8 +182,24 @@ const Edituser = ({ userId, onClose }) => {
 							<LucideToggleLeft />
 						)}
 					</div>
+					<div className="flex items-center justify-between">
+						<h3>Account Status</h3>
+						{currentUser?.accountStatus?.banned ? (
+							<h6>Suspended</h6>
+						) : (
+							<h6>Active</h6>
+						)}
+					</div>
+					<div className="flex items-center justify-between">
+						<h3>Wallet Connected</h3>
+						{currentUser?.settings?.wallet?.isConnected ? (
+							<h6>True</h6>
+						) : (
+							<h6>False</h6>
+						)}
+					</div>
 				</Formholder>
-				<Deleteaccount />
+				<Deleteaccount userId={currentUser?._id} user={currentUser} />
 			</div>
 		</div>
 	);
