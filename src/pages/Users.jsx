@@ -10,8 +10,8 @@ const headers = [
 	{ id: "name.firstName", title: "First Name" },
 	{ id: "name.lastName", title: "Last Name" },
 	{ id: "credentials.username", title: "Username" },
-	{ id: "contactInfo.email", title: "Email" },
-	{ id: "role", title: "Role" },
+	{ id: "credentials.email", title: "Email" },
+	{ id: "identityVerification.kycStatus", title: "Verification" },
 ];
 
 const buttons = [{ id: "edit user", title: "edit" }];

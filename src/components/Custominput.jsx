@@ -7,6 +7,7 @@ const CustomInput = ({
 	name,
 	label,
 	placeholder,
+	readOnly,
 }) => {
 	return (
 		<div className="flex flex-col gap-2 w-full">
@@ -17,6 +18,7 @@ const CustomInput = ({
 				{label}
 			</label>
 			<input
+				readOnly={readOnly}
 				type={type}
 				id={name}
 				name={name}
