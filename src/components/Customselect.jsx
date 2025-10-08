@@ -32,7 +32,7 @@ const Customselect = ({
 						return (
 							<option
 								key={opt.id || opt._id || index}
-								value={opt.id || opt._id || index}
+								value={opt.id || opt._id || opt || index}
 							>
 								{opt.title || opt}
 							</option>

@@ -1,8 +1,4 @@
-import {
-	LucideToggleLeft,
-	LucideToggleRight,
-	LucideXCircle,
-} from "lucide-react";
+import { LucideXCircle } from "lucide-react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,20 +6,9 @@ import {
 	selectManageUserSlice,
 } from "../../features/manageUserSlice";
 import { Custominput } from "../../components";
-import { styles } from "../../style";
 import Deleteaccount from "./Deleteaccount";
 import { format } from "date-fns";
-
-const Formdiv = ({ children }) => {
-	return (
-		<div className="flex flex-col md:flex-row items-center gap-6">
-			{children}
-		</div>
-	);
-};
-const Formholder = ({ children }) => {
-	return <div className="flex flex-col gap-2">{children}</div>;
-};
+import Settingrow from "./Settingrow";
 
 const Edituser = ({ userId, onClose }) => {
 	const dispatch = useDispatch();
@@ -35,12 +20,6 @@ const Edituser = ({ userId, onClose }) => {
 			dispatch(getUserInfo(userId));
 		}
 	}, [userId]);
-
-	useEffect(() => {
-		if (currentUser) {
-			console.log(currentUser);
-		}
-	}, [currentUser]);
 
 	const formattedDob =
 		currentUser && format(currentUser.personalDetails?.dob, "dd/MM/yyyy");
@@ -174,11 +153,11 @@ const Edituser = ({ userId, onClose }) => {
 								<h5 className="font-medium text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">
 									Deposit Settings
 								</h5>
-								<SettingRow
+								<Settingrow
 									label="Bank Deposits"
 									enabled={!currentUser?.settings?.locks?.bankDeposit?.isLocked}
 								/>
-								<SettingRow
+								<Settingrow
 									label="Crypto Deposits"
 									enabled={!currentUser?.settings?.locks?.cash?.isLocked}
 								/>
@@ -189,11 +168,11 @@ const Edituser = ({ userId, onClose }) => {
 								<h5 className="font-medium text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">
 									Trading Features
 								</h5>
-								<SettingRow
+								<Settingrow
 									label="Options Trading"
 									enabled={currentUser?.settings?.trading?.isOptionsEnabled}
 								/>
-								<SettingRow
+								<Settingrow
 									label="DRIP Feature"
 									enabled={currentUser?.settings?.trading?.isDripEnabled}
 								/>
@@ -248,23 +227,6 @@ const Edituser = ({ userId, onClose }) => {
 export default Edituser;
 
 // Helper Components
-const SettingRow = ({ label, enabled }) => (
-	<div className="flex items-center justify-between py-2">
-		<span className="text-gray-700 dark:text-gray-300">{label}</span>
-		<div className="flex items-center gap-2">
-			<span
-				className={`text-sm ${enabled ? "text-green-600" : "text-gray-500"}`}
-			>
-				{enabled ? "Enabled" : "Disabled"}
-			</span>
-			{enabled ? (
-				<LucideToggleRight className="w-6 h-6 text-green-500" />
-			) : (
-				<LucideToggleLeft className="w-6 h-6 text-gray-400" />
-			)}
-		</div>
-	</div>
-);
 
 const StatusBadge = ({ status }) => {
 	const statusConfig = {

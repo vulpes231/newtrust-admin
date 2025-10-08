@@ -22,6 +22,8 @@ import {
 	selectManageTrnxSlice,
 } from "../../features/manageTrnxSlice";
 import { selectManageUserSlice } from "../../features/manageUserSlice";
+import { useQuery } from "@tanstack/react-query";
+import { getUserWallets } from "../../services/userService";
 
 const Createtrans = ({ onClose }) => {
 	const dispatch = useDispatch();
@@ -32,7 +34,10 @@ const Createtrans = ({ onClose }) => {
 		userId: "",
 		amount: "",
 		type: "",
+		memo: "",
+		accountId: "",
 	});
+
 	const [error, setError] = useState("");
 	const [networks, setNetworks] = useState([]);
 	const [searchResults, setSearchResults] = useState([]);
@@ -43,6 +48,16 @@ const Createtrans = ({ onClose }) => {
 	);
 
 	const { users } = useSelector(selectManageUserSlice);
+
+	const {
+		data: wallets,
+		isLoading,
+		isError,
+	} = useQuery({
+		queryKey: ["userWallets", form.userId],
+		queryFn: () => getUserWallets(form.userId),
+		enabled: !!form.userId,
+	});
 
 	// handle search input
 	const handleSearchUser = (e) => {
@@ -120,6 +135,12 @@ const Createtrans = ({ onClose }) => {
 		}
 	}, [searchValue, users]);
 
+	useEffect(() => {
+		if (wallets) {
+			console.log(wallets.data);
+		}
+	}, [wallets]);
+
 	return (
 		<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
 			<div className="max-w-lg w-full mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-y-auto h-[600px] ">
@@ -178,7 +199,6 @@ const Createtrans = ({ onClose }) => {
 						/>
 					</div>
 
-					{/* Network Selection */}
 					{form.method && (
 						<div className="space-y-2">
 							<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -196,7 +216,6 @@ const Createtrans = ({ onClose }) => {
 						</div>
 					)}
 
-					{/* User Search */}
 					<div className="space-y-2">
 						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
 							Select User *
@@ -239,15 +258,38 @@ const Createtrans = ({ onClose }) => {
 								</div>
 							)}
 
+							{form.userId && (
+								<div className="space-y-2">
+									<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+										Account *
+									</label>
+									<Customselect
+										label=""
+										handleChange={(e) => handleFormChange(e, form, setForm)}
+										value={form.accountId}
+										name="accountId"
+										optionLabel="Select user wallet"
+										options={
+											wallets?.data?.map((wallet) => ({
+												id: wallet._id,
+												title: wallet.name,
+												// You can add other properties if needed
+											})) || []
+										}
+										className="w-full"
+									/>
+								</div>
+							)}
+
 							{/* No Results Message */}
-							{searchValue.length > 2 && searchResults.length === 0 && (
+							{/* {searchValue.length > 2 && searchResults.length === 0 && (
 								<div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg mt-1 p-4 text-center">
 									<LucideUserX className="w-6 h-6 text-gray-400 mx-auto mb-2" />
 									<p className="text-sm text-gray-500 dark:text-gray-400">
 										No users found matching "{searchValue}"
 									</p>
 								</div>
-							)}
+							)} */}
 						</div>
 					</div>
 
