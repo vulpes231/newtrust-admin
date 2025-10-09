@@ -83,7 +83,7 @@ const Createtrans = ({ onClose }) => {
 			return;
 		}
 		console.log(form);
-		// dispatch(createTrnx(form));
+		dispatch(createTrnx(form));
 	};
 
 	useEffect(() => {

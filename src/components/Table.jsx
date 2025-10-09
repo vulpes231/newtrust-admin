@@ -3,12 +3,19 @@ import { styles } from "../style";
 import Deleteadmin from "../pages/adminmodals/Deleteadmin";
 import Updaterole from "../pages/adminmodals/Updaterole";
 import Edituser from "../pages/usermodals/Edituser";
+import { format } from "date-fns";
+import numeral from "numeral";
+import Trnxmodal from "../pages/transmodal/Trnxmodal";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	const [itemId, setItemId] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showUpdateRole, setShowUpdateRole] = useState({
+		status: false,
+		action: "",
+	});
+	const [showTrnxModal, setShowTrnxModal] = useState({
 		status: false,
 		action: "",
 	});
@@ -53,11 +60,14 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 			rowActions[itemId] === "addsu" ||
 			rowActions[itemId] === "removesu"
 		) {
-			console.log("update role", rowActions[itemId], itemId);
 			setShowUpdateRole({ status: true, action: rowActions[itemId] });
 		} else if (rowActions[itemId] === "edit user") {
-			// console.log("Edit user", itemId);
 			setShowUserModal(true);
+		} else if (
+			rowActions[itemId] === "approve" ||
+			rowActions[itemId] === "reject"
+		) {
+			setShowTrnxModal({ status: true, action: rowActions[itemId] });
 		}
 	}, [rowActions]);
 
@@ -138,6 +148,18 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 												{hd.id === "role" ? (
 													<div className="flex flex-wrap gap-1">
 														{customRole}
+													</div>
+												) : hd.id === "createdAt" ? (
+													<div className="flex flex-wrap gap-1">
+														{dt[hd.id]
+															? format(new Date(dt[hd.id]), "dd-MMM-yyyy")
+															: "N/A"}
+													</div>
+												) : hd.id === "amount" ? (
+													<div className="flex flex-wrap gap-1">
+														{dt[hd.id]
+															? `$${numeral(dt[hd.id]).format("0,0.00")}`
+															: "N/A"}
 													</div>
 												) : (
 													<span className="font-medium">
@@ -254,6 +276,19 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 					onClose={() => {
 						setRowActions({});
 						setShowUpdateRole({
+							status: false,
+							action: "",
+						});
+					}}
+				/>
+			)}
+			{showTrnxModal.status && (
+				<Trnxmodal
+					trnxId={itemId}
+					action={showTrnxModal.action}
+					onClose={() => {
+						setRowActions({});
+						setShowTrnxModal({
 							status: false,
 							action: "",
 						});
