@@ -14,7 +14,7 @@ const Trnxmodal = ({ action, trnxId, onClose }) => {
 			console.log(data);
 		},
 		onError: (err) => {
-			setErrMsg(err);
+			setErrMsg(err.message);
 		},
 	});
 
@@ -29,14 +29,14 @@ const Trnxmodal = ({ action, trnxId, onClose }) => {
 
 	useEffect(() => {
 		let timeout;
-		if (errMsg) {
+		if (mutation.isError) {
 			timeout = setTimeout(() => {
 				setErrMsg("");
 				mutation.reset();
 			}, 3000);
 		}
 		return () => clearTimeout(timeout);
-	}, [errMsg]);
+	}, [mutation.isError]);
 
 	useEffect(() => {
 		let timeout;
@@ -94,16 +94,16 @@ const Trnxmodal = ({ action, trnxId, onClose }) => {
 				</div>
 
 				{/* Modals */}
-				{errMsg && (
+				{mutation.isError && (
 					<motion.div
 						initial={{ opacity: 0, y: 10 }}
 						animate={{ opacity: 1, y: 0 }}
 						className="flex items-center gap-2 text-red-600 dark:text-red-400 text-sm mt-2"
 					>
 						<X className="w-4 h-4" />
-						{errMsg}
+						{mutation.error.message}
 						<button
-							onClick={() => setErrMsg("")}
+							onClick={() => mutation.reset()}
 							className="ml-auto text-xs underline hover:text-red-700 dark:hover:text-red-300"
 						>
 							Dismiss
@@ -118,7 +118,7 @@ const Trnxmodal = ({ action, trnxId, onClose }) => {
 						className="flex items-center gap-2 text-green-600 dark:text-green-400 text-sm mt-2"
 					>
 						<CheckCircle2 className="w-4 h-4" />
-						Transaction {action}ed.
+						Transaction {action} success.
 						<button
 							// onClick={() => dispatch(resetDeleteAdmin)}
 							className="ml-auto text-xs underline hover:text-green-700 dark:hover:text-green-300"
@@ -135,7 +135,7 @@ const Trnxmodal = ({ action, trnxId, onClose }) => {
 						className="flex items-center gap-2 text-blue-600 dark:text-blue-400 text-sm mt-2"
 					>
 						<Loader2 className="w-4 h-4 animate-spin" />
-						{action}ing Transaction...
+						Wait...
 					</motion.div>
 				)}
 			</motion.div>

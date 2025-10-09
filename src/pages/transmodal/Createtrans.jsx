@@ -21,7 +21,10 @@ import {
 	resetAddTrnx,
 	selectManageTrnxSlice,
 } from "../../features/manageTrnxSlice";
-import { selectManageUserSlice } from "../../features/manageUserSlice";
+import {
+	getUsers,
+	selectManageUserSlice,
+} from "../../features/manageUserSlice";
 import { useQuery } from "@tanstack/react-query";
 import { getUserWallets } from "../../services/userService";
 
@@ -109,7 +112,8 @@ const Createtrans = ({ onClose }) => {
 			timeout = setTimeout(() => {
 				dispatch(resetAddTrnx());
 				onClose();
-			}, 2000);
+				window.location.reload();
+			}, 3000);
 		}
 		return () => clearTimeout(timeout);
 	}, [trnxCreated, dispatch, onClose]);
@@ -140,6 +144,10 @@ const Createtrans = ({ onClose }) => {
 			console.log(wallets.data);
 		}
 	}, [wallets]);
+
+	useEffect(() => {
+		dispatch(getUsers());
+	}, []);
 
 	return (
 		<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">

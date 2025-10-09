@@ -1,23 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import Authnav from "./Authnav";
 Authnav;
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectNavSlice } from "../features/navSlice";
 import Authnav from "./Authnav";
 import Chart from "./Chart";
 import Table from "./Table";
 import { styles } from "../style";
+import { getTrnxs, selectManageTrnxSlice } from "../features/manageTrnxSlice";
 
 const headers = [
-	{ id: "name", title: "name" },
-	{ id: "email", title: "email" },
-	{ id: "mail verified", title: "mail verified" },
-	{ id: "kyc verified", title: "kyc verified" },
-	{ id: "account status", title: "account status" },
+	{ id: "email", title: "user" },
+	{ id: "type", title: "type" },
+	{ id: "amount", title: "amount" },
+	{ id: "method.mode", title: "method" },
+	{ id: "createdAt", title: "date" },
+	{ id: "status", title: "status" },
+];
+
+const buttons = [
+	{ id: "approve", title: "approve" },
+	{ id: "reject", title: "reject" },
 ];
 
 const Dashcontent = () => {
 	const { darkMode } = useSelector(selectNavSlice);
+	const dispatch = useDispatch();
+
+	const { trnxs, trnxPagination } = useSelector(selectManageTrnxSlice);
+
+	const customTransaction = trnxs && trnxs.length > 0 && trnxs.slice(0, 5);
+
+	useEffect(() => {
+		dispatch(getTrnxs());
+	}, []);
 	return (
 		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300 h-screen overflow-auto">
 			<Authnav darkMode={darkMode} />
@@ -27,7 +43,12 @@ const Dashcontent = () => {
 					<h3 className={`${styles.font.subheading} py-4 px-6`}>
 						Recent Transactions
 					</h3>
-					<Table headers={headers} nullText={"You have no transactions."} />
+					<Table
+						headers={headers}
+						data={customTransaction}
+						buttons={buttons}
+						nullText={"You have no transactions."}
+					/>
 				</div>
 			</div>
 		</div>
