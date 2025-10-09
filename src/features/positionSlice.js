@@ -20,8 +20,8 @@ const initialState = {
 	positionInfo: null,
 };
 
-export const fetchAllPositions = createAsyncThunk(
-	"position/fetchAllPositions",
+export const getPositions = createAsyncThunk(
+	"position/getPositions",
 	async (queryData, { rejectWithValue }) => {
 		try {
 			const { sortBy, filterBy, page, limit } = queryData;
@@ -29,7 +29,7 @@ export const fetchAllPositions = createAsyncThunk(
 			const pageLimit = Math.max(1, page || 1);
 			const itemLimit = Math.min(10, limit || 10);
 			const response = await api.get(
-				`/position/?sortBy=${sortBy}&filterBy=${filterBy}&page=${pageLimit}&limit=${itemLimit}`
+				`/managetrade/?sortBy=${sortBy}&filterBy=${filterBy}&page=${pageLimit}&limit=${itemLimit}`
 			);
 			return response.data;
 		} catch (error) {
@@ -47,7 +47,7 @@ export const createPosition = createAsyncThunk(
 	"position/createPosition",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await api.post(`/position`, { data: formData });
+			const response = await api.post(`/managetrade`, formData);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -62,9 +62,9 @@ export const createPosition = createAsyncThunk(
 
 export const updatePosition = createAsyncThunk(
 	"position/updatePosition",
-	async (formData, { rejectWithValue }) => {
+	async (tradeId, { rejectWithValue }) => {
 		try {
-			const response = await api.put(`/position`, { data: formData });
+			const response = await api.put(`/managetrade/${tradeId}`);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -79,9 +79,9 @@ export const updatePosition = createAsyncThunk(
 
 export const closePosition = createAsyncThunk(
 	"position/closePosition",
-	async (formData, { rejectWithValue }) => {
+	async (tradeId, { rejectWithValue }) => {
 		try {
-			const response = await api.post(`/position/close`, { data: formData });
+			const response = await api.post(`/managetrade/${tradeId}`);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -96,9 +96,9 @@ export const closePosition = createAsyncThunk(
 
 export const getPositionInfo = createAsyncThunk(
 	"position/getPositionInfo",
-	async (positionId, { rejectWithValue }) => {
+	async (tradeId, { rejectWithValue }) => {
 		try {
-			const response = await api.get(`/position/${positionId}`);
+			const response = await api.get(`/managetrade/${tradeId}`);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -133,16 +133,16 @@ const positionSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(fetchAllPositions.pending, (state) => {
+			.addCase(getPositions.pending, (state) => {
 				state.getPositionsLoading = true;
 			})
-			.addCase(fetchAllPositions.fulfilled, (state, action) => {
+			.addCase(getPositions.fulfilled, (state, action) => {
 				state.getPositionsLoading = false;
 				state.getPositionsError = false;
 				state.positions = action.payload.data;
 				state.tradesPagination = action.payload.pagination;
 			})
-			.addCase(fetchAllPositions.rejected, (state, action) => {
+			.addCase(getPositions.rejected, (state, action) => {
 				state.getPositionsLoading = false;
 				state.getPositionsError = action.error.payload || action.error.message;
 				state.positions = null;

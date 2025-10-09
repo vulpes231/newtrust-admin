@@ -161,6 +161,22 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 															? `$${numeral(dt[hd.id]).format("0,0.00")}`
 															: "N/A"}
 													</div>
+												) : hd.id === "execution.amount" ? (
+													<div className="flex flex-wrap gap-1">
+														{getNestedValue(dt, hd.id) !== "N/A"
+															? `$${numeral(getNestedValue(dt, hd.id)).format(
+																	"0,0.00"
+															  )}`
+															: "N/A"}
+													</div>
+												) : hd.id === "execution.quantity" ? (
+													<div className="flex flex-wrap gap-1">
+														{getNestedValue(dt, hd.id) !== "N/A"
+															? `${parseFloat(
+																	getNestedValue(dt, hd.id)
+															  ).toFixed(6)}`
+															: "N/A"}
+													</div>
 												) : (
 													<span className="font-medium">
 														{getNestedValue(dt, hd.id)}
