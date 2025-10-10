@@ -9,6 +9,10 @@ import Positions from "./Positions";
 import Settings from "./Settings";
 // import Profile from "./Profile";
 import Admins from "./Admins";
+import Savings from "./Savings";
+import Plans from "./Plans";
+import Verifications from "./Verifications";
+import Profile from "./Profile";
 
 const Dashboard = () => {
 	const { activeLink } = useSelector(selectNavSlice);
@@ -34,8 +38,16 @@ const Dashboard = () => {
 				<Transactions />
 			) : activeLink === "positions" ? (
 				<Positions />
+			) : activeLink === "savings" ? (
+				<Savings />
+			) : activeLink === "plans" ? (
+				<Plans />
+			) : activeLink === "verifications" ? (
+				<Verifications />
 			) : activeLink === "settings" ? (
 				<Settings />
+			) : activeLink === "profile" ? (
+				<Profile />
 			) : null}
 		</section>
 	);

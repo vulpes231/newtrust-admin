@@ -9,8 +9,10 @@ import { slideLeft, container, card } from "../style/variants";
 import { styles } from "../style";
 import {
 	LucideArrowDownCircle,
+	LucideChartBar,
 	LucideCircleDollarSign,
 	LucideCog,
+	LucideFolderClock,
 	LucideHome,
 	LucideUserCog,
 	LucideUserLock,
@@ -51,8 +53,10 @@ const Sidebar = () => {
 								<LucideCircleDollarSign />
 							) : link.id === "positions" ? (
 								<LucideArrowDownCircle />
-							) : link.id === "settings" ? (
-								<LucideCog />
+							) : link.id === "savings" ? (
+								<LucideChartBar />
+							) : link.id === "plans" ? (
+								<LucideFolderClock />
 							) : link.id === "verifications" ? (
 								<LucideUserLock />
 							) : null;

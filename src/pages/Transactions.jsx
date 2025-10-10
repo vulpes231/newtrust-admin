@@ -3,7 +3,6 @@ import { selectNavSlice } from "../features/navSlice";
 import { Authnav, Table } from "../components";
 import { getTrnxs, selectManageTrnxSlice } from "../features/manageTrnxSlice";
 import { useEffect, useState } from "react";
-import { styles } from "../style";
 import Createtrans from "./transmodal/Createtrans";
 
 const headers = [

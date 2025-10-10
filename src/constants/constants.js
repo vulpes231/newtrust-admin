@@ -11,8 +11,15 @@ const sideBarLinks = [
 	{ id: "users", name: "users" },
 	{ id: "transactions", name: "transactions" },
 	{ id: "positions", name: "positions" },
-	{ id: "settings", name: "settings" },
+	{ id: "savings", name: "savings" },
+	{ id: "plans", name: "plans" },
+	// { id: "settings", name: "settings" },
 	{ id: "verifications", name: "verifications" },
+];
+
+const userMenuLinks = [
+	{ id: "profile", name: "admin profile" },
+	{ id: "settings", name: "app settings" },
 ];
 
 const supportedCoins = [
@@ -34,4 +41,5 @@ export {
 	sideBarLinks,
 	handleFormChange,
 	supportedCoins,
+	userMenuLinks,
 };
