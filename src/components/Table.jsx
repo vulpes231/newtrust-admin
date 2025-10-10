@@ -7,12 +7,14 @@ import { format } from "date-fns";
 import numeral from "numeral";
 import Trnxmodal from "../pages/transmodal/Trnxmodal";
 import Updatetrade from "../pages/trademodals/Updatetrade";
+import Closetrade from "../pages/trademodals/Closetrade";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	const [itemId, setItemId] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showUpdateTrade, setShowUpdateTrade] = useState(false);
+	const [showCloseTrade, setShowCloseTrade] = useState(false);
 	const [showUpdateRole, setShowUpdateRole] = useState({
 		status: false,
 		action: "",
@@ -72,6 +74,8 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 			setShowTrnxModal({ status: true, action: rowActions[itemId] });
 		} else if (rowActions[itemId] === "edit trade") {
 			setShowUpdateTrade(true);
+		} else if (rowActions[itemId] === "close trade") {
+			setShowCloseTrade(true);
 		}
 	}, [rowActions]);
 
@@ -331,6 +335,15 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 					onClose={() => {
 						setRowActions({});
 						setShowUpdateTrade(false);
+					}}
+				/>
+			)}
+			{showCloseTrade && (
+				<Closetrade
+					tradeId={itemId}
+					onClose={() => {
+						setRowActions({});
+						setShowCloseTrade(false);
 					}}
 				/>
 			)}

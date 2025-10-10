@@ -177,7 +177,7 @@ const positionSlice = createSlice({
 			})
 			.addCase(closePosition.rejected, (state, action) => {
 				state.closePositionLoading = false;
-				state.closePositionError = action.error.payload || action.error.message;
+				state.closePositionError = action.payload;
 				state.positionClosed = null;
 			});
 		builder
