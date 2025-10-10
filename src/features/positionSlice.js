@@ -62,9 +62,12 @@ export const createPosition = createAsyncThunk(
 
 export const updatePosition = createAsyncThunk(
 	"position/updatePosition",
-	async (tradeId, { rejectWithValue }) => {
+	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await api.put(`/managetrade/${tradeId}`);
+			const response = await api.put(
+				`/managetrade/${formData.tradeId}`,
+				formData
+			);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(

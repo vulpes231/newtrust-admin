@@ -6,11 +6,13 @@ import Edituser from "../pages/usermodals/Edituser";
 import { format } from "date-fns";
 import numeral from "numeral";
 import Trnxmodal from "../pages/transmodal/Trnxmodal";
+import Updatetrade from "../pages/trademodals/Updatetrade";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	const [itemId, setItemId] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
+	const [showUpdateTrade, setShowUpdateTrade] = useState(false);
 	const [showUpdateRole, setShowUpdateRole] = useState({
 		status: false,
 		action: "",
@@ -68,6 +70,8 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 			rowActions[itemId] === "reject"
 		) {
 			setShowTrnxModal({ status: true, action: rowActions[itemId] });
+		} else if (rowActions[itemId] === "edit trade") {
+			setShowUpdateTrade(true);
 		}
 	}, [rowActions]);
 
@@ -318,6 +322,15 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 					onClose={() => {
 						setRowActions({});
 						setShowUserModal(false);
+					}}
+				/>
+			)}
+			{showUpdateTrade && (
+				<Updatetrade
+					tradeId={itemId}
+					onClose={() => {
+						setRowActions({});
+						setShowUpdateTrade(false);
 					}}
 				/>
 			)}

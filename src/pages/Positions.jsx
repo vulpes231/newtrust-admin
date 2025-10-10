@@ -7,7 +7,7 @@ import Createtrade from "./trademodals/Createtrade";
 
 const headers = [
 	{ id: "orderType", title: "type" },
-	{ id: "asset.symbol", title: "asset" },
+	{ id: "asset.name", title: "asset" },
 	{ id: "execution.amount", title: "amount" },
 	{ id: "execution.quantity", title: "quantity" },
 	{ id: "performance.totalReturnPercent", title: "ROI(%)" },
