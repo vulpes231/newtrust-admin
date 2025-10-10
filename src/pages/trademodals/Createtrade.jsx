@@ -45,7 +45,6 @@ const CreateTrade = ({ onClose }) => {
 	const { createPositionLoading, createPositionError, positionCreated } =
 		useSelector(selectPositionSlice);
 	const { users } = useSelector(selectManageUserSlice);
-	const assets = useSelector(selectAssets);
 
 	const handleSearchUser = (e) => {
 		setSearchValue(e.target.value);
@@ -172,7 +171,6 @@ const CreateTrade = ({ onClose }) => {
 
 	useEffect(() => {
 		dispatch(getUsers());
-		dispatch(getAllAssets());
 	}, [dispatch]);
 
 	return (
@@ -384,34 +382,34 @@ const CreateTrade = ({ onClose }) => {
 
 					{/* Summary Preview */}
 					{form.orderType && form.assetId && form.amount && (
-						<div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-							<h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+						<div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-4">
+							<h4 className="font-medium text-indigo-900 dark:text-indigo-100 mb-2">
 								Position Summary
 							</h4>
 							<div className="space-y-1 text-sm">
 								<div className="flex justify-between">
-									<span className="text-blue-700 dark:text-blue-300">
+									<span className="text-indigo-700 dark:text-indigo-300">
 										Order Type:
 									</span>
-									<span className="font-medium text-blue-900 dark:text-blue-100 capitalize">
+									<span className="font-medium text-indigo-900 dark:text-indigo-100 capitalize">
 										{form.orderType}
 									</span>
 								</div>
 								{form.assetId && (
 									<div className="flex justify-between">
-										<span className="text-blue-700 dark:text-blue-300">
+										<span className="text-indigo-700 dark:text-indigo-300">
 											Asset:
 										</span>
-										<span className="font-medium text-blue-900 dark:text-blue-100">
+										<span className="font-medium text-indigo-900 dark:text-indigo-100">
 											{assetValue}
 										</span>
 									</div>
 								)}
 								<div className="flex justify-between">
-									<span className="text-blue-700 dark:text-blue-300">
+									<span className="text-indigo-700 dark:text-indigo-300">
 										Amount:
 									</span>
-									<span className="font-medium text-blue-900 dark:text-blue-100">
+									<span className="font-medium text-indigo-900 dark:text-indigo-100">
 										${form.amount}
 									</span>
 								</div>
@@ -423,7 +421,7 @@ const CreateTrade = ({ onClose }) => {
 					<button
 						type="submit"
 						disabled={createPositionLoading}
-						className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+						className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
 					>
 						{createPositionLoading ? (
 							<>
