@@ -8,7 +8,8 @@ export async function updateTransaction(action, transactionId) {
 		});
 		return response.data;
 	} catch (error) {
-		const errMsg = error?.response?.message?.data;
+		// console.log(error);
+		const errMsg = error?.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }

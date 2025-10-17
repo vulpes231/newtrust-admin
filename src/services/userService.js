@@ -5,7 +5,7 @@ export async function suspendUser(userId) {
 		const response = await api.put(`/manageuser/${userId}`);
 		return response.data;
 	} catch (error) {
-		const errMsg = error?.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }
@@ -15,7 +15,7 @@ export async function deleteUser(userId) {
 		const response = await api.delete(`/manageuser/${userId}`);
 		return response.data;
 	} catch (error) {
-		const errMsg = error?.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }
@@ -25,7 +25,7 @@ export async function getUserWallets(userId) {
 		const response = await api.get(`/managewallet/${userId}`);
 		return response.data;
 	} catch (error) {
-		const errMsg = error?.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }

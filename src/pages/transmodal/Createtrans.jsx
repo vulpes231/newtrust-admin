@@ -91,6 +91,7 @@ const Createtrans = ({ onClose }) => {
 
 	useEffect(() => {
 		if (createTrnxError) {
+			console.log(createTrnxError);
 			setError(createTrnxError);
 		}
 	}, [createTrnxError]);
@@ -139,11 +140,11 @@ const Createtrans = ({ onClose }) => {
 		}
 	}, [searchValue, users]);
 
-	useEffect(() => {
-		if (wallets) {
-			console.log(wallets.data);
-		}
-	}, [wallets]);
+	// useEffect(() => {
+	// 	if (wallets) {
+	// 		console.log(wallets.data);
+	// 	}
+	// }, [wallets]);
 
 	useEffect(() => {
 		dispatch(getUsers());

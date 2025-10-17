@@ -5,7 +5,7 @@ export async function logoutAdmin() {
 		const response = await api.put("/manageadmin/logout");
 		return response.data;
 	} catch (error) {
-		const errMsg = error.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }
@@ -15,7 +15,7 @@ export async function changeAdminEmail() {
 		const response = await api.put("/manageadmin");
 		return response.data;
 	} catch (error) {
-		const errMsg = error.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }

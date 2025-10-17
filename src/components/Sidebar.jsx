@@ -28,7 +28,7 @@ const Sidebar = () => {
 			initial="hidden"
 			animate="visible"
 			exit="exit"
-			className={`hidden lg:block col-span-1 bg-gray-800 dark:bg-slate-800/20 text-[#fff] dark:text-slate-300 p-4 shadow-lg`}
+			className={`hidden lg:block col-span-1 bg-white dark:bg-slate-800/20 text-slate-600 dark:text-slate-300 p-4 shadow-lg`}
 		>
 			<div className="flex flex-col gap-10">
 				<Logo />
@@ -66,7 +66,7 @@ const Sidebar = () => {
 								className={`cursor-pointer py-3 px-5 rounded-lg transition-colors duration-300 
 								${
 									activeLink === link.id
-										? `bg-indigo-600 font-medium shadow-md`
+										? `bg-indigo-600 font-medium shadow-md text-white`
 										: `hover:bg-slate-300/20 dark:hover:bg-slate-700/30`
 								} capitalize flex items-center gap-2`}
 							>

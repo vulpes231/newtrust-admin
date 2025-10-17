@@ -5,7 +5,7 @@ export async function getSavingsAccounts() {
 		const response = await api.get("/managesavings");
 		return response.data;
 	} catch (error) {
-		const errMsg = error.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }
@@ -14,7 +14,7 @@ export async function getSavingsInfo(accountId) {
 		const response = await api.get(`/managesavings/${accountId}`);
 		return response.data;
 	} catch (error) {
-		const errMsg = error.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }
@@ -33,7 +33,7 @@ export async function createSavings(formData) {
 		const response = await api.post("/managesavings", formData);
 		return response.data;
 	} catch (error) {
-		const errMsg = error.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }
@@ -44,7 +44,7 @@ export async function updateSavingsAccount(formData) {
 		const response = await api.put(`/managesavings/${accountId}`, formData);
 		return response.data;
 	} catch (error) {
-		const errMsg = error.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }
@@ -54,7 +54,7 @@ export async function deleteSavingsAccount(accountId) {
 		const response = await api.delete(`/managesavings/${accountId}`);
 		return response.data;
 	} catch (error) {
-		const errMsg = error.response?.message?.data;
+		const errMsg = error.response?.data?.message;
 		throw new Error(errMsg);
 	}
 }
