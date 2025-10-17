@@ -1,7 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectNavSlice, setDarkMode } from "../features/navSlice";
-import { LucideMoon, LucideSun } from "lucide-react";
+import {
+	LucideMoon,
+	LucideSun,
+	LucideSunDim,
+	LucideSunMedium,
+	LucideSunrise,
+} from "lucide-react";
 import Logo from "./Logo";
 import { styles } from "../style";
 import { motion } from "framer-motion";
@@ -22,15 +28,15 @@ const Navbar = () => {
 				<span>
 					<button onClick={() => dispatch(setDarkMode())}>
 						{!darkMode ? (
-							<LucideSun
+							<LucideSunDim
 								className={`${
-									!darkMode ? styles.color.accent : ""
+									!darkMode ? "bg-indigo-600 text-white" : ""
 								} rounded-full w-7 h-7 p-1`}
 							/>
 						) : (
 							<LucideMoon
 								className={`${
-									darkMode ? styles.color.accent : ""
+									darkMode ? "bg-indigo-600 text-white" : ""
 								} rounded-full w-7 h-7 p-1`}
 							/>
 						)}

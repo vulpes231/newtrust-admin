@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	LineChart,
 	Line,
@@ -15,14 +15,25 @@ import {
 	Tooltip as ChartTooltip,
 	Legend,
 } from "chart.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectNavSlice } from "../features/navSlice";
+import { getUsers, selectManageUserSlice } from "../features/manageUserSlice";
+import { getTrnxs, selectManageTrnxSlice } from "../features/manageTrnxSlice";
+import {
+	getPositions,
+	selectAllPositions,
+	selectPositionSlice,
+} from "../features/positionSlice";
 
 // Register chart.js components
 ChartJS.register(ArcElement, ChartTooltip, Legend);
 
 const Chart = () => {
+	const dispatch = useDispatch();
 	const { darkMode } = useSelector(selectNavSlice);
+	const { users } = useSelector(selectManageUserSlice);
+	const { trnxs } = useSelector(selectManageTrnxSlice);
+	const positions = useSelector(selectAllPositions);
 	const lineData = [
 		{ day: "Mo", revenue: 12000 },
 		{ day: "Tu", revenue: 8000 },
@@ -38,12 +49,24 @@ const Chart = () => {
 		labels: ["Users", "Transactions", "Positions"],
 		datasets: [
 			{
-				data: [300, 500, 200],
+				data: [users?.length, trnxs?.length, positions?.length],
 				backgroundColor: ["#4F46E5", "#10B981", "#F59E0B"],
 				borderWidth: 1,
 			},
 		],
 	};
+
+	useEffect(() => {
+		dispatch(getUsers());
+		dispatch(getTrnxs());
+		const queryData = {
+			page: 1,
+			limit: 10,
+			filterBy: "",
+			sortBy: "",
+		};
+		dispatch(getPositions(queryData));
+	}, []);
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">

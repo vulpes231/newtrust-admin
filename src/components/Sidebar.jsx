@@ -31,9 +31,7 @@ const Sidebar = () => {
 			className={`hidden lg:block col-span-1 bg-gray-800 dark:bg-slate-800/20 text-[#fff] dark:text-slate-300 p-4 shadow-lg`}
 		>
 			<div className="flex flex-col gap-10">
-				<div className="flex items-center justify-center">
-					<Logo />
-				</div>
+				<Logo />
 
 				<motion.div
 					variants={container}

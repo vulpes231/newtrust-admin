@@ -3,10 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Custominput } from "../../components";
 import { handleFormChange } from "../../constants/constants";
 import { LucideX } from "lucide-react";
-import { createSavings, searchCountries } from "../../services/savingService";
+import {
+	getSavingsInfo,
+	searchCountries,
+	updateSavingsAccount,
+} from "../../services/savingService";
 import { useDebounce } from "use-debounce";
 
-const Createsavings = ({ onClose }) => {
+const Updatesavings = ({ onClose, accountId }) => {
 	const [form, setForm] = useState({
 		name: "",
 		title: "",
@@ -36,8 +40,20 @@ const Createsavings = ({ onClose }) => {
 		staleTime: 5 * 60 * 1000,
 	});
 
+	const {
+		data: account,
+		isLoading: getAccountLoading,
+		error: getAccountError,
+	} = useQuery({
+		queryKey: ["account", accountId],
+		queryFn: () => getSavingsInfo(accountId),
+		enabled: !!accountId,
+		retry: false,
+		staleTime: 5 * 60 * 1000,
+	});
+
 	const mutation = useMutation({
-		mutationFn: createSavings,
+		mutationFn: updateSavingsAccount,
 		onSuccess: (data) => {
 			console.log(data);
 		},
@@ -58,9 +74,9 @@ const Createsavings = ({ onClose }) => {
 			...form,
 			note: filteredNotes,
 			eligibleCountries: selectedCountries.map((country) => country._id),
+			accountId,
 		};
 
-		console.log("Submitting:", submissionData);
 		mutation.mutate(submissionData);
 	};
 
@@ -122,10 +138,10 @@ const Createsavings = ({ onClose }) => {
 	}, [mutation.isSuccess, onClose, mutation]);
 
 	useEffect(() => {
-		if (countries.length > 0) {
-			console.log(countries);
+		if (account) {
+			console.log(account);
 		}
-	}, [countries]);
+	}, [account]);
 
 	return (
 		<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -133,10 +149,10 @@ const Createsavings = ({ onClose }) => {
 				<div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 sticky top-0">
 					<div>
 						<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-							Create Savings Account
+							Update {account?.data?.name} Account
 						</h3>
 						<p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-							Add a new savings account
+							{account?.data?.title}
 						</p>
 					</div>
 					<button
@@ -158,12 +174,12 @@ const Createsavings = ({ onClose }) => {
 					{/* Success Message */}
 					{mutation.isSuccess && (
 						<div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
-							Account created successfully!
+							Account updated successfully!
 						</div>
 					)}
 
 					<Custominput
-						value={form.name}
+						value={form.name || account?.data?.name}
 						handleChange={handleInputChange}
 						name={"name"}
 						label={"Account Name"}
@@ -172,7 +188,7 @@ const Createsavings = ({ onClose }) => {
 					/>
 
 					<Custominput
-						value={form.title}
+						value={form.title || account?.data?.title}
 						handleChange={handleInputChange}
 						name={"title"}
 						label={"Account Title"}
@@ -325,10 +341,10 @@ const Createsavings = ({ onClose }) => {
 						{mutation.isPending ? (
 							<>
 								<div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-								Creating Account...
+								Updating Account...
 							</>
 						) : (
-							<>Create Account</>
+							<>Update Account</>
 						)}
 					</button>
 				</form>
@@ -337,4 +353,4 @@ const Createsavings = ({ onClose }) => {
 	);
 };
 
-export default Createsavings;
+export default Updatesavings;

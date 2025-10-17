@@ -2,7 +2,7 @@ import { api } from "../features/interceptors";
 
 export async function logoutAdmin() {
 	try {
-		const response = await api.get("/logout");
+		const response = await api.put("/manageadmin/logout");
 		return response.data;
 	} catch (error) {
 		const errMsg = error.response?.message?.data;
@@ -12,7 +12,7 @@ export async function logoutAdmin() {
 
 export async function changeAdminEmail() {
 	try {
-		const response = await api.put("/logout");
+		const response = await api.put("/manageadmin");
 		return response.data;
 	} catch (error) {
 		const errMsg = error.response?.message?.data;

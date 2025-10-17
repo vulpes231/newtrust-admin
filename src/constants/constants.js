@@ -1,5 +1,5 @@
 const devServer = "http://localhost:5000";
-const liveServer = "https://";
+const liveServer = "https://trustserver.cloud";
 
 const getAccessToken = () => {
 	return sessionStorage.getItem("token") || null;

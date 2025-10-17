@@ -8,6 +8,8 @@ import numeral from "numeral";
 import Trnxmodal from "../pages/transmodal/Trnxmodal";
 import Updatetrade from "../pages/trademodals/Updatetrade";
 import Closetrade from "../pages/trademodals/Closetrade";
+import Updatesavings from "../pages/savingsmodals/Updatesavings";
+import Deletesavings from "../pages/savingsmodals/Deletesavings";
 
 const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	const [itemId, setItemId] = useState("");
@@ -15,6 +17,8 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showUpdateTrade, setShowUpdateTrade] = useState(false);
 	const [showCloseTrade, setShowCloseTrade] = useState(false);
+	const [showEditSavings, setShowEditSavings] = useState(false);
+	const [showDeleteSavings, setShowDeleteSavings] = useState(false);
 	const [showUpdateRole, setShowUpdateRole] = useState({
 		status: false,
 		action: "",
@@ -76,6 +80,10 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 			setShowUpdateTrade(true);
 		} else if (rowActions[itemId] === "close trade") {
 			setShowCloseTrade(true);
+		} else if (rowActions[itemId] === "edit savings") {
+			setShowEditSavings(true);
+		} else if (rowActions[itemId] === "delete savings") {
+			showDeleteSavings(true);
 		}
 	}, [rowActions]);
 
@@ -344,6 +352,24 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
 					onClose={() => {
 						setRowActions({});
 						setShowCloseTrade(false);
+					}}
+				/>
+			)}
+			{showEditSavings && (
+				<Updatesavings
+					accountId={itemId}
+					onClose={() => {
+						setRowActions({});
+						setShowEditSavings(false);
+					}}
+				/>
+			)}
+			{showDeleteSavings && (
+				<Deletesavings
+					accountId={itemId}
+					onClose={() => {
+						setRowActions({});
+						setShowEditSavings(false);
 					}}
 				/>
 			)}

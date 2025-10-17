@@ -15,7 +15,7 @@ const headers = [
 ];
 
 const buttons = [
-	{ id: "update savings", title: "edit" },
+	{ id: "edit savings", title: "edit" },
 	{ id: "delete savings", title: "delete" },
 ];
 
@@ -33,11 +33,12 @@ const Savings = () => {
 		document.title = "Itrust Investment | Manage Savings";
 	}, []);
 
-	// useEffect(() => {
-	// 	if (data) {
-	// 		console.log(data);
-	// 	}
-	// }, [data]);
+	useEffect(() => {
+		if (data) {
+			console.log(data);
+		}
+	}, [data]);
+
 	return (
 		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300 h-screen overflow-auto">
 			<Authnav darkMode={darkMode} />

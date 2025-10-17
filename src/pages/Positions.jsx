@@ -25,6 +25,7 @@ const Positions = () => {
 	const { darkMode } = useSelector(selectNavSlice);
 	const { positions, tradePagination } = useSelector(selectPositionSlice);
 	const [createTradeModal, setCreateTradeModal] = useState(false);
+
 	useEffect(() => {
 		document.title = "Itrust Investment | Manage Positions";
 	}, []);
@@ -39,11 +40,11 @@ const Positions = () => {
 		dispatch(getPositions(queryData));
 	}, [dispatch]);
 
-	useEffect(() => {
-		if (positions) {
-			console.log(positions);
-		}
-	}, [positions]);
+	// useEffect(() => {
+	// 	if (positions) {
+	// 		console.log(positions);
+	// 	}
+	// }, [positions]);
 	return (
 		<div className="col-span-4 lg:col-span-3 bg-slate-200 dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex flex-col gap-6 h-screen overflow-auto">
 			<Authnav darkMode={darkMode} />
