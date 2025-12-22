@@ -8,16 +8,17 @@ import Settings from "./Settings";
 import Transactions from "./Transactions";
 import Users from "./Users";
 import Verifications from "./Verifications";
-
+import Edituser from "./usermodals/Edituser";
 export {
-	Admins,
-	Dashboard,
-	Landing,
-	Savings,
-	Plans,
-	Positions,
-	Transactions,
-	Users,
-	Verifications,
-	Settings,
+  Admins,
+  Dashboard,
+  Landing,
+  Savings,
+  Plans,
+  Positions,
+  Transactions,
+  Users,
+  Verifications,
+  Settings,
+  Edituser,
 };

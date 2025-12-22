@@ -13,44 +13,45 @@ import Savings from "./Savings";
 import Plans from "./Plans";
 import Verifications from "./Verifications";
 import Profile from "./Profile";
+import Edituser from "./usermodals/Edituser";
 
 const Dashboard = () => {
-	const { activeLink } = useSelector(selectNavSlice);
+  const { activeLink } = useSelector(selectNavSlice);
 
-	useEffect(() => {
-		if (activeLink === "dashboard") {
-			document.title = "Itrust Investment | Dashboard";
-		}
-	}, [activeLink]);
-	return (
-		<section
-			className={`w-full grid grid-cols-4 h-screen bg-slate-200 dark:bg-slate-950 `}
-		>
-			<Sidebar />
-			{/* <Dashcontent /> */}
-			{activeLink === "dashboard" ? (
-				<Dashcontent />
-			) : activeLink === "admins" ? (
-				<Admins />
-			) : activeLink === "users" ? (
-				<Users />
-			) : activeLink === "transactions" ? (
-				<Transactions />
-			) : activeLink === "positions" ? (
-				<Positions />
-			) : activeLink === "savings" ? (
-				<Savings />
-			) : activeLink === "plans" ? (
-				<Plans />
-			) : activeLink === "verifications" ? (
-				<Verifications />
-			) : activeLink === "settings" ? (
-				<Settings />
-			) : activeLink === "profile" ? (
-				<Profile />
-			) : null}
-		</section>
-	);
+  useEffect(() => {
+    if (activeLink === "dashboard") {
+      document.title = "Itrust Investment | Dashboard";
+    }
+  }, [activeLink]);
+  return (
+    <section className={`w-full grid grid-cols-4 h-screen dark:bg-slate-950 `}>
+      <Sidebar />
+      {/* <Dashcontent /> */}
+      {activeLink === "dashboard" ? (
+        <Dashcontent />
+      ) : activeLink === "admins" ? (
+        <Admins />
+      ) : activeLink === "users" ? (
+        <Users />
+      ) : activeLink === "edituser" ? (
+        <Edituser />
+      ) : activeLink === "transactions" ? (
+        <Transactions />
+      ) : activeLink === "positions" ? (
+        <Positions />
+      ) : activeLink === "savings" ? (
+        <Savings />
+      ) : activeLink === "plans" ? (
+        <Plans />
+      ) : activeLink === "verifications" ? (
+        <Verifications />
+      ) : activeLink === "settings" ? (
+        <Settings />
+      ) : activeLink === "profile" ? (
+        <Profile />
+      ) : null}
+    </section>
+  );
 };
 
 export default Dashboard;
