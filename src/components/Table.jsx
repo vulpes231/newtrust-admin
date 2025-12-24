@@ -74,7 +74,7 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
     ) {
       setShowUpdateRole({ status: true, action: rowActions[itemId] });
     } else if (rowActions[itemId] === "edit user") {
-      // setShowUserModal(true);
+      sessionStorage.setItem("userId", itemId);
       dispatch(setActiveLink("edituser"));
     } else if (
       rowActions[itemId] === "approve" ||
@@ -333,7 +333,7 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
         />
       )}
 
-      {showUserModal && (
+      {/* {showUserModal && (
         <Edituser
           userId={itemId}
           onClose={() => {
@@ -341,7 +341,7 @@ const Table = ({ data, pagination, headers, nullText, buttons }) => {
             setShowUserModal(false);
           }}
         />
-      )}
+      )} */}
       {showUpdateTrade && (
         <Updatetrade
           tradeId={itemId}

@@ -2,49 +2,49 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectNavSlice, setDarkMode } from "../features/navSlice";
 import {
-	LucideMoon,
-	LucideSun,
-	LucideSunDim,
-	LucideSunMedium,
-	LucideSunrise,
+  LucideMoon,
+  LucideSun,
+  LucideSunDim,
+  LucideSunMedium,
+  LucideSunrise,
 } from "lucide-react";
 import Logo from "./Logo";
 import { styles } from "../style";
 import { motion } from "framer-motion";
 import { fade } from "../style/variants";
 const Navbar = () => {
-	const dispatch = useDispatch();
-	const { darkMode } = useSelector(selectNavSlice);
+  const dispatch = useDispatch();
+  const { darkMode } = useSelector(selectNavSlice);
 
-	return (
-		<motion.header
-			variants={fade}
-			initial="hidden"
-			animate="visible"
-			className="flex items-center justify-center h-[80px] top-0 left-0 bg-[#fff] dark:bg-slate-800 text-[#333] dark:text-[#f0f0f0] fixed w-full"
-		>
-			<nav className="w-full max-w-7xl mx-auto flex items-center justify-between p-6">
-				<Logo />
-				<span>
-					<button onClick={() => dispatch(setDarkMode())}>
-						{!darkMode ? (
-							<LucideSunDim
-								className={`${
-									!darkMode ? "bg-indigo-600 text-white" : ""
-								} rounded-full w-7 h-7 p-1`}
-							/>
-						) : (
-							<LucideMoon
-								className={`${
-									darkMode ? "bg-indigo-600 text-white" : ""
-								} rounded-full w-7 h-7 p-1`}
-							/>
-						)}
-					</button>
-				</span>
-			</nav>
-		</motion.header>
-	);
+  return (
+    <motion.header
+      variants={fade}
+      initial="hidden"
+      animate="visible"
+      className="flex items-center justify-center h-[80px] top-0 left-0 bg-[#fff] dark:bg-slate-800 text-[#333] dark:text-[#f0f0f0] fixed w-full"
+    >
+      <nav className="w-full max-w-7xl mx-auto flex items-center justify-between p-6">
+        <Logo />
+        <span>
+          <button onClick={() => dispatch(setDarkMode())}>
+            {!darkMode ? (
+              <LucideSunDim
+                className={`${
+                  !darkMode ? "bg-[#5156be] text-white" : ""
+                } rounded-full w-7 h-7 p-1`}
+              />
+            ) : (
+              <LucideMoon
+                className={`${
+                  darkMode ? "bg-[#5156be] text-white" : ""
+                } rounded-full w-7 h-7 p-1`}
+              />
+            )}
+          </button>
+        </span>
+      </nav>
+    </motion.header>
+  );
 };
 
 export default Navbar;

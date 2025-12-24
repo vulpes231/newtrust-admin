@@ -9,14 +9,20 @@ import { Authnav, Custominput } from "../../components";
 import Deleteaccount from "./Deleteaccount";
 import { format } from "date-fns";
 import Settingrow from "./Settingrow";
+import { Card, CardHeader, Col } from "reactstrap";
+import PersonalInformation from "../user/PersonalInformation";
+import ContactInformation from "../user/ContactInformation";
+import IdentityInformation from "../user/IdentityInformation";
+import ConnectWallet from "../user/ConnectWallet";
 
-const Edituser = ({ userId, onClose }) => {
+const Edituser = ({ onClose }) => {
   const dispatch = useDispatch();
 
   const { currentUser } = useSelector(selectManageUserSlice);
-
+  const userId = sessionStorage.getItem("userId");
   useEffect(() => {
     if (userId) {
+      // console.log(userId);
       dispatch(getUserInfo(userId));
     }
   }, [userId]);
@@ -27,109 +33,37 @@ const Edituser = ({ userId, onClose }) => {
   return (
     <div className="col-span-4 lg:col-span-3 bg-slate-100 dark:bg-slate-900 !text-[#495057] dark:text-slate-300 flex flex-col gap-6 h-screen overflow-auto">
       <Authnav />
-      <div className="w-full">
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Personal Information */}
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-            <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      <div className="w-full px-6">
+        <Col className="space-y-6">
+          <Card>
+            <CardHeader className="font-semibold text-[#495057]">
               Personal Information
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Custominput
-                label="First Name"
-                value={currentUser?.name?.firstName}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="Last Name"
-                value={currentUser?.name?.lastName}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="Email Address"
-                value={currentUser?.credentials?.email}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="Username"
-                value={currentUser?.credentials?.username}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-            </div>
-          </div>
-
-          {/* Contact Information */}
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-            <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+            </CardHeader>
+            <PersonalInformation user={currentUser} />
+          </Card>
+          <Card>
+            <CardHeader className="font-semibold text-[#495057]">
               Contact Information
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Custominput
-                label="Street Address"
-                value={currentUser?.contactInfo?.address?.street}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="Phone Number"
-                value={currentUser?.contactInfo?.phone}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="City"
-                value={currentUser?.contactInfo?.address?.city}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="Zip Code"
-                value={currentUser?.contactInfo?.address?.zipCode}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-            </div>
-          </div>
+            </CardHeader>
+            <ContactInformation user={currentUser} />
+          </Card>
 
-          {/* Identity Information */}
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-            <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
-              Identity Information
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Custominput
-                label="KYC Status"
-                value={currentUser?.identityVerification?.kycStatus}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="Date of Birth"
-                value={formattedDob}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="Experience Level"
-                value={currentUser?.professionalInfo?.experience}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-              <Custominput
-                label="Employment Status"
-                value={currentUser?.professionalInfo?.employment}
-                readOnly={true}
-                className="bg-white dark:bg-gray-700"
-              />
-            </div>
-          </div>
+          <Card>
+            <CardHeader className="font-semibold text-[#495057]">
+              Contact Information
+            </CardHeader>
+            <IdentityInformation
+              user={currentUser}
+              formattedDob={formattedDob}
+            />
+          </Card>
+          <Card>
+            <CardHeader className="font-semibold text-[#495057]">
+              External Wallet
+            </CardHeader>
+            <ConnectWallet user={currentUser} />
+          </Card>
 
-          {/* User Settings */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
             <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
               Account Settings
@@ -205,15 +139,13 @@ const Edituser = ({ userId, onClose }) => {
             </h4>
             <Deleteaccount userId={currentUser?._id} user={currentUser} />
           </div>
-        </div>
+        </Col>
       </div>
     </div>
   );
 };
 
 export default Edituser;
-
-// Helper Components
 
 const StatusBadge = ({ status }) => {
   const statusConfig = {
